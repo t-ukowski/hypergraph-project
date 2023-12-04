@@ -8,12 +8,11 @@ matplotlib.use('TkAgg')
 class Node:
     _id_counter = count()
 
-    def __init__(self, x: float, y: float, h: int, label: str, level: int):
+    def __init__(self, x: float, y: float, h: int, label: str):
         self.x = x
         self.y = y
         self.h = h
         self.label = label
-        self.level = level
         self.id = next(self._id_counter) # remove if not needed
 
 class Edge:
@@ -78,9 +77,9 @@ class Graph:
 
 
 
-node1 = Node(1, 3, 3, "one", 1)
-node2 = Node(1, 1, 1, "two", 1)
-node3 = Node(4, 2, 3, "three", 1)
+node1 = Node(1, 3, 3, "one")
+node2 = Node(1, 1, 1, "two")
+node3 = Node(4, 2, 3, "three")
 
 graph = Graph()
 
@@ -98,10 +97,11 @@ label = first_node.label
 print(label)
 
 edges = graph.get_edges()
-first_edge = next(iter(edges))
-label = first_edge[2]['B']
+print(len(edges))
 
 print(label)
+
+
 
 
 graph.visualize()
