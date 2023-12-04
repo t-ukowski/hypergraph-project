@@ -13,8 +13,9 @@ class Node:
         self.y = y
         self.h = h
         self.label = label
-        self.id = next(self._id_counter) # remove if not needed
+        self.id = next(self._id_counter) # TODO: remove if not needed
 
+# TODO: B and R should be int or boolean ?
 class Edge:
     def __init__(self, v1: Node, v2: Node, B: int, R: int):
         self.v1 = v1
@@ -100,8 +101,5 @@ edges = graph.get_edges()
 print(len(edges))
 
 print(label)
-
-
-
 
 graph.visualize()
