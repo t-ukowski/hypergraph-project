@@ -2,13 +2,14 @@ from itertools import count
 import networkx as nx
 import matplotlib.pyplot as plt
 import matplotlib
+
 matplotlib.use('TkAgg')
 
 
 class Node:
     _id_counter = count()
 
-    def __init__(self, x: float, y: float, h: int, label: str):
+    def __init__(self, x: float, y: float, h=0, label=""):
         self.x = x
         self.y = y
         self.h = h
@@ -17,7 +18,7 @@ class Node:
 
 # TODO: B and R should be int or boolean ?
 class Edge:
-    def __init__(self, v1: Node, v2: Node, B: int, R: int):
+    def __init__(self, v1: Node, v2: Node, B=0, R=0):
         self.v1 = v1
         self.v2 = v2
         self.B = B
@@ -36,7 +37,7 @@ class Graph:
     def add_node(self, node: Node):
         self.G.add_node(node, node=node)
 
-    def add_edge(self, v1: Node, v2: Node, B: int, R: int):
+    def add_edge(self, v1: Node, v2: Node, B=0, R=0):
         if v1 not in self:
             raise ValueError(f"{v1} not in graph")
         if v2 not in self:
@@ -69,37 +70,15 @@ class Graph:
 
         self.G.remove_edge(v1, v2)
 
+
+
     def visualize(self):
         pos = {node: (node.x, node.y) for node in self.G.nodes}
         labels = {node: node.label for node in self.G.nodes}
-        nx.draw(graph.G, pos, with_labels=True, labels=labels, node_color='lightblue', node_size=400, font_size=10,
+        nx.draw(self.G, pos, with_labels=True, labels=labels, node_color='lightblue', node_size=400, font_size=10,
                 edge_color='gray')
         plt.show()
 
 
 
-node1 = Node(1, 3, 3, "one")
-node2 = Node(1, 1, 1, "two")
-node3 = Node(4, 2, 3, "three")
 
-graph = Graph()
-
-graph.add_node(node1)
-graph.add_node(node2)
-graph.add_node(node3)
-
-graph.add_edge(node1, node2, 1, 2)
-graph.add_edge(node2, node3, 3,4)
-
-nodes = graph.get_nodes()
-first_node = next(iter(nodes))
-label = first_node.label
-
-print(label)
-
-edges = graph.get_edges()
-print(len(edges))
-
-print(label)
-
-graph.visualize()
