@@ -1,6 +1,6 @@
 from hypergraph.structures import Node, Edge
 
-
+#TODO: Update input params (4 nodes instead of whole graph)
 def P1(graph):
     new_nodes = []
     new_edges = []
@@ -34,6 +34,7 @@ def P1(graph):
         center_edge = Edge(center_node, new_node)
         new_edges.append(center_edge)
 
+    # TODO: Remove old edges
     for node in new_nodes:
         graph.add_node(node)
 
