@@ -2,13 +2,13 @@ from hypergraph.structures import  Graph, Node, QNode, ENode
 import networkx as nx
 class P2:
     def __init__(self):
+        graph = Graph()
         node1 = Node(0, 0, 0)
         node2 = Node(10, 0, 0)
         node3 = Node(10, 10, 0)
         node4 = Node(0, 10, 0)
         node5 = Node(10, 5,1)
         self.nodes = [node1, node2, node3, node4, node5]
-        graph = Graph()
         graph.add_node(node1)
         graph.add_node(node2)
         graph.add_node(node3)

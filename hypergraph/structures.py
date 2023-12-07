@@ -1,4 +1,3 @@
-from itertools import count
 import networkx as nx
 import matplotlib.pyplot as plt
 import matplotlib
@@ -7,35 +6,36 @@ matplotlib.use('TkAgg')
 
 
 class Node:
-
-    def __init__(self, x: float, y: float, h = 0):
+    def __init__(self, x: float, y: float, h=0):
         self.x = x
         self.y = y
         self.h = h
         self.label = "V"
 
+
 class QNode:
-    def __init__(self, x: float, y: float, R = 0):
+    def __init__(self, x: float, y: float, R=0):
         self.x = x
         self.y = y
         self.R = R
         self.label = "Q"
 
+
 class ENode:
-    def __init__(self, x: float, y: float, B = 0):
+    def __init__(self, x: float, y: float, B=0):
         self.x = x
         self.y = y
         self.B = B
         self.label = "E"
 
-# TODO: B and R should be int or boolean ?
+
 class Edge:
     def __init__(self, v1: Node, v2: Node):
         self.v1 = v1
         self.v2 = v2
 
-class Graph:
 
+class Graph:
     def __init__(self):
         self.G = nx.Graph()
 
@@ -48,16 +48,17 @@ class Graph:
     def add_node(self, node: Node):
         self.G.add_node(node, node=node)
 
-    def add_q_node(self, n1,n2,n3,n4):
+    def add_q_node(self, n1, n2, n3, n4):
         node = QNode(
-            x = (n1.x + n2.x + n3.x + n4.x) / 4,
-            y = (n1.y + n2.y + n3.y + n4.y) / 4
+            x=(n1.x + n2.x + n3.x + n4.x) / 4,
+            y=(n1.y + n2.y + n3.y + n4.y) / 4
         )
         self.G.add_node(node, node=node)
         self.add_hyperedge(n1, node)
         self.add_hyperedge(n2, node)
         self.add_hyperedge(n3, node)
         self.add_hyperedge(n4, node)
+
         return node
 
     def add_hyperedge(self, v1, v2):
@@ -72,8 +73,8 @@ class Graph:
 
     def add_edge(self, v1: Node, v2: Node):
         node = ENode(
-            x = (v1.x + v2.x) / 2,
-            y = (v1.y + v2.y) / 2
+            x=(v1.x + v2.x) / 2,
+            y=(v1.y + v2.y) / 2
         )
         if v1 not in self:
             raise ValueError(f"{v1} not in graph")
@@ -83,6 +84,7 @@ class Graph:
         self.G.add_node(node, node=node)
         self.G.add_edge(v1, node)
         self.G.add_edge(node, v2)
+
         return node
 
     def get_nodes(self):
@@ -122,23 +124,24 @@ class Graph:
         if e1 not in self:
             raise ValueError(f"{e1} not in graph")
 
-
         node = Node(
-            x = e1.x,
-            y = e1.y,
-            h = 1 - e1.B
+            x=e1.x,
+            y=e1.y,
+            h=1 - e1.B
         )
+
         self.remove_edge(v1, v2, e1)
         self.add_node(node)
         e1 = self.add_edge(v1, node)
         e2 = self.add_edge(node, v2)
-        return node, e1, e2
 
+        return node, e1, e2
 
     def visualize(self):
         pos = {node: (node.x, node.y) for node in self.G.nodes}
         labels = {node: node.label for node in self.G.nodes}
         color_map = []
+
         for node in self.G:
             if node.label == "Q":
                 color_map.append('lightgreen')
@@ -146,10 +149,7 @@ class Graph:
                 color_map.append("lightgrey")
             else:
                 color_map.append('lightblue')
+
         nx.draw(self.G, pos=pos, with_labels=True, labels=labels, node_color=color_map, node_size=400, font_size=10,
                 edge_color='gray')
         plt.show()
-
-
-
-

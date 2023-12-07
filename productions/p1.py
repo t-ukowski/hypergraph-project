@@ -1,13 +1,15 @@
-from hypergraph.structures import  Graph, Node, QNode, ENode
+from hypergraph.structures import Graph, Node, QNode, ENode
 import networkx as nx
+
+
 class P1:
     def __init__(self):
+        graph = Graph()
         node1 = Node(0, 0, 0)
         node2 = Node(2, 0, 0)
         node3 = Node(2, 2, 0)
         node4 = Node(0, 2, 0)
         self.nodes = [node1, node2, node3, node4]
-        graph = Graph()
         graph.add_node(node1)
         graph.add_node(node2)
         graph.add_node(node3)
@@ -36,7 +38,8 @@ class P1:
         return True
 
     def search_for_subgraphs(self, graph: Graph):
-        return nx.isomorphism.GraphMatcher(graph.G, self.left_graph.G, node_match=self.node_match).subgraph_isomorphisms_iter()
+        return nx.isomorphism.GraphMatcher(graph.G, self.left_graph.G,
+                                           node_match=self.node_match).subgraph_isomorphisms_iter()
 
     def apply_production(self, graph, mapping):
         mapping = {v: k for k, v in mapping.items()}
@@ -47,9 +50,9 @@ class P1:
         v4, v4_e1, v4_e2 = graph.split_edge(mapping[self.nodes[3]], mapping[self.nodes[0]], mapping[self.enodes[3]])
         # Replace midpoint
         node = Node(
-            x = mapping[self.qnode].x,
-            y = mapping[self.qnode].y,
-            h = 0
+            x=mapping[self.qnode].x,
+            y=mapping[self.qnode].y,
+            h=0
         )
         graph.remove_q_node(mapping[self.qnode])
         graph.add_node(node)
@@ -64,4 +67,3 @@ class P1:
         graph.add_q_node(node, v2, mapping[self.nodes[2]], v3)
         graph.add_q_node(v4, node, v3, mapping[self.nodes[3]])
         graph.visualize()
-
