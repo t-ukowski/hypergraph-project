@@ -1,4 +1,4 @@
-from productions.p1 import P1
+from ..productions import P1
 from hypergraph.structures import Node, Graph
 
 node1 = Node(0, 0, 0)
@@ -17,9 +17,11 @@ enode_2 = graph.add_edge(node2, node3)
 enode_3 = graph.add_edge(node3, node4)
 enode_4 = graph.add_edge(node4, node1)
 graph.visualize()
-prod = P1()
 
+prod = P1()
 results = prod.search_for_subgraphs(graph)
 for subgraph in results:
     prod.apply_production(graph, subgraph)
     break
+
+graph.visualize()

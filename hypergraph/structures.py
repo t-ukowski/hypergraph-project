@@ -38,6 +38,7 @@ class Edge:
 class Graph:
     def __init__(self):
         self.G = nx.Graph()
+        self.normal_nodes = []
 
     def __contains__(self, node):
         return self.has_node(node)
@@ -46,6 +47,7 @@ class Graph:
         return node in self.G
 
     def add_node(self, node: Node):
+        self.normal_nodes.append(node)
         self.G.add_node(node, node=node)
 
     def add_q_node(self, n1, n2, n3, n4):
@@ -91,13 +93,13 @@ class Graph:
         return self.G.nodes
 
     def get_number_of_nodes(self):
-        return self.G.number_of_nodes()
+        return len(self.normal_nodes)
 
     def get_edges(self):
         return self.G.edges(data=True)
 
     def get_number_of_edges(self):
-        return self.G.number_of_edges()
+        return self.G.number_of_nodes() - len(self.normal_nodes)
 
     def remove_node(self, node: Node) -> None:
         if node not in self:

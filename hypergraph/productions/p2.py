@@ -1,29 +1,30 @@
+from hypergraph.productions.production_base import ProductionBase
 from hypergraph.structures import  Graph, Node, QNode, ENode
 import networkx as nx
-class P2:
+
+class P2(ProductionBase):
     def __init__(self):
-        graph = Graph()
+        super().__init__()
         node1 = Node(0, 0, 0)
         node2 = Node(10, 0, 0)
         node3 = Node(10, 10, 0)
         node4 = Node(0, 10, 0)
         node5 = Node(10, 5,1)
         self.nodes = [node1, node2, node3, node4, node5]
-        graph.add_node(node1)
-        graph.add_node(node2)
-        graph.add_node(node3)
-        graph.add_node(node4)
-        graph.add_node(node5)
-        self.qnode = graph.add_q_node(node1, node2, node3, node4)
+        self.graph.add_node(node1)
+        self.graph.add_node(node2)
+        self.graph.add_node(node3)
+        self.graph.add_node(node4)
+        self.graph.add_node(node5)
+        self.qnode = self.graph.add_q_node(node1, node2, node3, node4)
         self.qnode.R = 1
-        enode1 = graph.add_edge(node1, node2)
-        enode2 = graph.add_edge(node2, node5)
-        enode3 = graph.add_edge(node5, node3)
-        enode4 = graph.add_edge(node3, node4)
-        enode5 = graph.add_edge(node4, node1)
+        enode1 = self.graph.add_edge(node1, node2)
+        enode2 = self.graph.add_edge(node2, node5)
+        enode3 = self.graph.add_edge(node5, node3)
+        enode4 = self.graph.add_edge(node3, node4)
+        enode5 = self.graph.add_edge(node4, node1)
         self.enodes = [enode1, enode2, enode3, enode4, enode5]
-        graph.visualize()
-        self.left_graph = graph
+        self.left_graph = self.graph
 
     # Predykat stosowalnosci
     def node_match(self, n1, n2):
@@ -38,9 +39,6 @@ class P2:
             if n1.h != n2.h:
                 return False
         return True
-
-    def search_for_subgraphs(self, graph: Graph):
-        return nx.isomorphism.GraphMatcher(graph.G, self.left_graph.G, node_match=self.node_match).subgraph_isomorphisms_iter()
 
     def apply_production(self, graph, mapping):
         mapping = {v: k for k, v in mapping.items()}
@@ -66,5 +64,4 @@ class P2:
         graph.add_q_node(mapping[self.nodes[1]], v1, node, mapping[self.nodes[4]])
         graph.add_q_node(node, mapping[self.nodes[4]], mapping[self.nodes[2]], v3)
         graph.add_q_node(v4, node, v3, mapping[self.nodes[3]])
-        graph.visualize()
 

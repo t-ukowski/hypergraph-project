@@ -1,4 +1,4 @@
-from productions.p2 import P2
+from ..productions import P2
 from hypergraph.structures import Node, Graph
 
 node1 = Node(0, 0, 0)
@@ -27,3 +27,5 @@ results = prod.search_for_subgraphs(graph)
 for subgraph in results:
     prod.apply_production(graph, subgraph)
     break
+
+graph.visualize()
