@@ -21,6 +21,27 @@ class TestP1Production(unittest.TestCase):
         self.graph.add_edge(self.node3, self.node4)
         self.graph.add_edge(self.node4, self.node1)
 
+    def setUpLargerCompleteGraph(self):
+        # Ustawienie dla kompletnego grafu (używane w teście test_p1_production_applies_to_larger_graph)
+        self.node1 = Node(0, 0, 0)
+        self.node2 = Node(2, 0, 0)
+        self.node3 = Node(2, 2, 0)
+        self.node4 = Node(0, 2, 0)
+        self.node5 = Node(4, 4, 0)
+        self.graph = Graph()
+        self.graph.add_node(self.node1)
+        self.graph.add_node(self.node2)
+        self.graph.add_node(self.node3)
+        self.graph.add_node(self.node4)
+        self.graph.add_node(self.node5)
+        self.qnode = self.graph.add_q_node(self.node1, self.node2, self.node3, self.node4)
+        self.qnode.R = 1
+        self.graph.add_edge(self.node1, self.node2)
+        self.graph.add_edge(self.node2, self.node3)
+        self.graph.add_edge(self.node3, self.node4)
+        self.graph.add_edge(self.node4, self.node1)
+        self.graph.add_edge(self.node3, self.node5)
+
     def setUpIncompleteGraphWithMissingVertex(self):
         # Ustawienie dla niekompletnego grafu (używane w teście test_p1_production_does_not_apply_because_missing_vertex)
         self.incomplete_node1 = Node(0, 0, 0)
@@ -105,6 +126,31 @@ class TestP1Production(unittest.TestCase):
 
         # 2. Sprawdź liczbę krawędzi
         expected_num_edges = 16  # 4 oryginalne krawędzie są podzielone na 8, a do węzła centralnego dodane są 4 nowe krawędzie
+        self.assertEqual(self.graph.get_number_of_edges(), expected_num_edges)
+
+        # 3. Sprawdź obecność nowego centralnego węzła i jego właściwości
+        central_node = None
+        for node in self.graph.get_nodes():
+            if node.label == "V" and node.h == 0:  # Zakładając, że 'h' jest ustawione na 0 dla nowego centralnego węzła
+                central_node = node
+                break
+        self.assertIsNotNone(central_node)
+
+    def test_p1_production_applies_to_larger_graph(self):
+        self.setUpLargerCompleteGraph()
+        prod = P1()
+        results = prod.search_for_subgraphs(self.graph)
+        for subgraph in results:
+            prod.apply_production(self.graph, subgraph)
+            break
+
+        # Aserty
+        # 1. Sprawdź liczbę węzłów
+        expected_num_nodes = 10  # Dodano jeden nowy węzeł w centrum
+        self.assertEqual(self.graph.get_number_of_nodes(), expected_num_nodes)
+
+        # 2. Sprawdź liczbę krawędzi
+        expected_num_edges = 17  # 4 oryginalne krawędzie są podzielone na 8, a do węzła centralnego dodane są 4 nowe krawędzie
         self.assertEqual(self.graph.get_number_of_edges(), expected_num_edges)
 
         # 3. Sprawdź obecność nowego centralnego węzła i jego właściwości
