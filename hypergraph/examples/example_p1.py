@@ -1,7 +1,7 @@
 from hypergraph.productions import P1
 from hypergraph.structures import Node, Graph
 node1 = Node(0, 0, 0)
-node2 = Node(5,0, 0)
+node2 = Node(5, 0, 0)
 node3 = Node(5, 5, 0)
 node4 = Node(0, 5, 0)
 node5 = Node(10, 10, 0)

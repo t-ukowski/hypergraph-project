@@ -26,11 +26,14 @@ class P1(ProductionBase):
 
     # Predykat stosowalnosci
     def node_match(self, n1, n2):
-        n1 = n1['node']
-        n2 = n2['node']
+        n1 = n1["node"]
+        n2 = n2["node"]
         if n1.label != n2.label:
             return False
         if n1.label == "Q":
+            if n1.R != n2.R:
+                return False
+        if n1.label == "S":
             if n1.R != n2.R:
                 return False
         if n1.label == "V":
@@ -41,16 +44,20 @@ class P1(ProductionBase):
     def apply_production(self, graph, mapping):
         mapping = {v: k for k, v in mapping.items()}
         # Split 4 edges
-        v1, v1_e1, v1_e2 = graph.split_edge(mapping[self.nodes[0]], mapping[self.nodes[1]], mapping[self.enodes[0]])
-        v2, v2_e1, v2_e2 = graph.split_edge(mapping[self.nodes[1]], mapping[self.nodes[2]], mapping[self.enodes[1]])
-        v3, v3_e1, v3_e2 = graph.split_edge(mapping[self.nodes[2]], mapping[self.nodes[3]], mapping[self.enodes[2]])
-        v4, v4_e1, v4_e2 = graph.split_edge(mapping[self.nodes[3]], mapping[self.nodes[0]], mapping[self.enodes[3]])
-        # Replace midpoint
-        node = Node(
-            x=mapping[self.qnode].x,
-            y=mapping[self.qnode].y,
-            h=0
+        v1, v1_e1, v1_e2 = graph.split_edge(
+            mapping[self.nodes[0]], mapping[self.nodes[1]], mapping[self.enodes[0]]
         )
+        v2, v2_e1, v2_e2 = graph.split_edge(
+            mapping[self.nodes[1]], mapping[self.nodes[2]], mapping[self.enodes[1]]
+        )
+        v3, v3_e1, v3_e2 = graph.split_edge(
+            mapping[self.nodes[2]], mapping[self.nodes[3]], mapping[self.enodes[2]]
+        )
+        v4, v4_e1, v4_e2 = graph.split_edge(
+            mapping[self.nodes[3]], mapping[self.nodes[0]], mapping[self.enodes[3]]
+        )
+        # Replace midpoint
+        node = Node(x=mapping[self.qnode].x, y=mapping[self.qnode].y, h=0)
         graph.remove_q_node(mapping[self.qnode])
         graph.add_node(node)
         # Add inside edges
