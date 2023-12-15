@@ -1,4 +1,4 @@
-from hypergraph import print_hello_world
+# from hypergraph import print_hello_world
 
 # TODO: add main, maybe use some of the code from examples
 def main():
