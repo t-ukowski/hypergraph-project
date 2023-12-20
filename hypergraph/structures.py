@@ -28,13 +28,6 @@ class ENode:
         self.B = B
         self.label = "E"
 
-
-class Edge:
-    def __init__(self, v1: Node, v2: Node):
-        self.v1 = v1
-        self.v2 = v2
-
-
 class Graph:
     def __init__(self):
         self.G = nx.Graph()
@@ -73,10 +66,11 @@ class Graph:
     def remove_q_node(self, v1: QNode):
         self.G.remove_node(v1)
 
-    def add_edge(self, v1: Node, v2: Node):
+    def add_edge(self, v1: Node, v2: Node, B=0):
         node = ENode(
             x=(v1.x + v2.x) / 2,
-            y=(v1.y + v2.y) / 2
+            y=(v1.y + v2.y) / 2,
+            B=B
         )
         if v1 not in self:
             raise ValueError(f"{v1} not in graph")
@@ -134,14 +128,21 @@ class Graph:
 
         self.remove_edge(v1, v2, e1)
         self.add_node(node)
-        e1 = self.add_edge(v1, node)
-        e2 = self.add_edge(node, v2)
+        e1 = self.add_edge(v1, node, e1.B)
+        e2 = self.add_edge(node, v2, e1.B)
 
         return node, e1, e2
 
     def visualize(self):
         pos = {node: (node.x, node.y) for node in self.G.nodes}
-        labels = {node: node.label for node in self.G.nodes}
+        labels = {}
+        for node in self.G.nodes:
+            if node.label == "V":
+                labels[node] =  f"{node.label}\nh={node.h}"
+            elif node.label == "Q":
+                labels[node] =  f"{node.label}\nR={node.R}"
+            elif node.label == "E":
+                labels[node] =  f"{node.label}\nB={node.B}"
         color_map = []
 
         for node in self.G:
@@ -152,6 +153,6 @@ class Graph:
             else:
                 color_map.append('lightblue')
 
-        nx.draw(self.G, pos=pos, with_labels=True, labels=labels, node_color=color_map, node_size=400, font_size=10,
+        nx.draw(self.G, pos=pos, with_labels=True, labels=labels, node_color=color_map, node_size=400, font_size=8,
                 edge_color='gray')
         plt.show()

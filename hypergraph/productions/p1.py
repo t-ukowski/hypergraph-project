@@ -54,12 +54,15 @@ class P1(ProductionBase):
         graph.remove_q_node(mapping[self.qnode])
         graph.add_node(node)
         # Add inside edges
-        graph.add_edge(v1, node)
-        graph.add_edge(v2, node)
-        graph.add_edge(v3, node)
-        graph.add_edge(v4, node)
+        inside_enode_1 = graph.add_edge(v1, node)
+        inside_enode_2 = graph.add_edge(v2, node)
+        inside_enode_3 = graph.add_edge(v3, node)
+        inside_enode_4 = graph.add_edge(v4, node)
         # Add hyperedges
-        graph.add_q_node(mapping[self.nodes[0]], v1, node, v4)
-        graph.add_q_node(mapping[self.nodes[1]], v1, node, v2)
-        graph.add_q_node(node, v2, mapping[self.nodes[2]], v3)
-        graph.add_q_node(v4, node, v3, mapping[self.nodes[3]])
+        qnode_1 = graph.add_q_node(mapping[self.nodes[0]], v1, node, v4)
+        qnode_2 = graph.add_q_node(mapping[self.nodes[1]], v1, node, v2)
+        qnode_3 = graph.add_q_node(node, v2, mapping[self.nodes[2]], v3)
+        qnode_4 = graph.add_q_node(v4, node, v3, mapping[self.nodes[3]])
+        return graph, ([v1, v2, v3, v4, node],
+                [v1_e1, v1_e2, v2_e1, v2_e2, v3_e1, v3_e2, v4_e1, v4_e2, inside_enode_1, inside_enode_2, inside_enode_3, inside_enode_4],
+                [qnode_1, qnode_2, qnode_3, qnode_4])
