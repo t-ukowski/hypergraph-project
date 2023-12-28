@@ -165,12 +165,16 @@ class Graph:
                 labels[node] =  f"{node.label}\nR={node.R}"
             elif node.label == "E":
                 labels[node] =  f"{node.label}\nB={node.B}"
+            elif node.label == "S":
+                labels[node] = f"{node.label}\nR={node.R}"
         color_map = []
 
         for node in self.G:
             if node.label == "Q":
                 color_map.append("lightgreen")
             elif node.label == "E":
+                color_map.append("lightgrey")
+            elif node.label == "S":
                 color_map.append("lightgrey")
             else:
                 color_map.append("lightblue")

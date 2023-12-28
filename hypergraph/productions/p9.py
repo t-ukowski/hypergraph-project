@@ -30,12 +30,12 @@ class P9(ProductionBase):
 
         self.snode.R = 1
 
-        self.enode1 = self.graph.add_edge(self.nodes[0], self.nodes[1])
-        self.enode2 = self.graph.add_edge(self.nodes[1], self.nodes[4])
-        self.enode3 = self.graph.add_edge(self.nodes[4], self.nodes[2])
-        self.enode4 = self.graph.add_edge(self.nodes[2], self.nodes[3])
-        self.enode5 = self.graph.add_edge(self.nodes[3], self.nodes[5])
-        self.enode6 = self.graph.add_edge(self.nodes[5], self.nodes[0])
+        self.enode1 = self.graph.add_edge(self.nodes[0], self.nodes[1], B=1)
+        self.enode2 = self.graph.add_edge(self.nodes[1], self.nodes[4], B=1)
+        self.enode3 = self.graph.add_edge(self.nodes[4], self.nodes[2], B=0)
+        self.enode4 = self.graph.add_edge(self.nodes[2], self.nodes[3], B=1)
+        self.enode5 = self.graph.add_edge(self.nodes[3], self.nodes[5], B=1)
+        self.enode6 = self.graph.add_edge(self.nodes[5], self.nodes[0], B=1)
         self.enodes = [
             self.enode1,
             self.enode2,

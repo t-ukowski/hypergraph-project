@@ -58,11 +58,13 @@ class TestP9Production(unittest.TestCase):
 
     def test_p9_production_applies_to_larger_graph(self):
         self.setUpLargerCompleteGraph()
+        self.prod.graph.visualize()
         results = self.prod.search_for_subgraphs(self.prod.graph)
         for subgraph in results:
             self.prod.apply_production(self.prod.graph, subgraph)
             break
 
+        self.prod.graph.visualize()
         # Aserty
         # 1. Sprawdź liczbę węzłów
         expected_num_nodes = 14  # Dodano jeden nowy węzeł w centrum
@@ -74,8 +76,10 @@ class TestP9Production(unittest.TestCase):
 
     def test_p9_production_does_not_apply_because_missing_vertex(self):
         self.setUpIncompleteGraphWithMissingVertex()  # Ustawienie niekompletnego grafu dla tego testu
+        self.prod.graph.visualize()
         prod = P9()
         results = list(prod.search_for_subgraphs(self.prod.graph))
+        self.prod.graph.visualize()
 
         # Sprawdź, czy nie znaleziono podgrafów (produkcja nie powinna być stosowana)
         self.assertEqual(len(results), 0)
