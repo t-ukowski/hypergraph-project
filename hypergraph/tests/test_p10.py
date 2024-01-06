@@ -86,16 +86,20 @@ class TestP9Production(unittest.TestCase):
 
     def test_p10_production_does_not_apply_because_missing_edge(self):
         self.setUpIncompleteGraphWithMissingEdge()  # Ustawienie grafu z brakującą krawędzią dla tego testu
+        self.prod.graph.visualize()
         prod = P10()
         results = list(prod.search_for_subgraphs(self.prod.graph))
+        self.prod.graph.visualize()
 
         # Sprawdź, czy nie znaleziono podgrafów (produkcja nie powinna być stosowana z brakującą krawędzią)
         self.assertEqual(len(results), 0)
 
     def test_p10_production_does_not_apply_because_incorrect_R(self):
         self.setUpGraphWithIncorrectR()  # Ustawienie grafu z niepoprawną wartością R dla tego testu
+        self.prod.graph.visualize()
         prod = P10()
         results = list(prod.search_for_subgraphs(self.prod.graph))
+        self.prod.graph.visualize()
 
         # Sprawdź, czy nie znaleziono podgrafów (produkcja nie powinna być stosowana z niepoprawną wartością R)
         self.assertEqual(len(results), 0)
