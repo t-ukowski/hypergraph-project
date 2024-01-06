@@ -25,15 +25,6 @@ class TestP9Production(unittest.TestCase):
             self.prod.nodes[3]
         )  # Celowo pomijamy czwarty węzeł i jego krawędzie
 
-    def setUpIncompleteGraphWithMissingEdge(self):
-        # Ustawienie dla grafu z brakującą krawędzią (używane w teście test_p1_production_does_not_apply_because_missing_edge)
-        self.setUpCompleteGraph()
-        self.prod.graph.remove_edge(
-            self.prod.nodes[0],
-            self.prod.nodes[1],
-            self.prod.enodes[0],
-        )  # Celowo pomijamy krawędź między node1 a node2
-        # Celowo pomijamy krawędź między node3 a node4
 
     def setUpGraphWithIncorrectR(self):
         # Ustawienie dla grafu z niepoprawną wartością R (używane w teście test_p1_production_does_not_apply_because_incorrect_R)
@@ -94,8 +85,10 @@ class TestP9Production(unittest.TestCase):
 
     def test_p9_production_does_not_apply_because_incorrect_R(self):
         self.setUpGraphWithIncorrectR()  # Ustawienie grafu z niepoprawną wartością R dla tego testu
+        self.prod.graph.visualize()
         prod = P9()
         results = list(prod.search_for_subgraphs(self.prod.graph))
+        self.prod.graph.visualize()
 
         # Sprawdź, czy nie znaleziono podgrafów (produkcja nie powinna być stosowana z niepoprawną wartością R)
         self.assertEqual(len(results), 0)
