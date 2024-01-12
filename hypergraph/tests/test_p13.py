@@ -2,7 +2,7 @@ import unittest
 
 from hypergraph.productions.p13 import P13
 from hypergraph.productions.p14 import P14
-from hypergraph.structures import Graph, Node
+from hypergraph.structures import ENode, Graph, Node
 
 vis = True
 
