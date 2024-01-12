@@ -1,6 +1,7 @@
 import unittest
 
 from hypergraph.productions.p13 import P13
+from hypergraph.productions.p14 import P14
 from hypergraph.structures import Graph, Node
 
 
@@ -101,6 +102,16 @@ class TestP13Production(unittest.TestCase):
 
     def test_p13_production_does_not_apply_because_incorrect_R(self):
         self.setUpGraphWithIncorrectR()  # Ustawienie grafu z niepoprawną wartością R dla tego testu
+        # self.prop.graph.visualize()
+        prod = P13()
+        results = list(prod.search_for_subgraphs(self.prop.graph))
+
+        # Sprawdź, czy nie znaleziono podgrafów (produkcja nie powinna być stosowana z niepoprawną wartością R)
+        self.assertEqual(len(results), 0)
+        # self.prop.graph.visualize()
+
+    def test_p13_production_does_not_apply_to_p14(self):
+        self.prop = P14()  # Ustawienie grafu z niepoprawną wartością R dla tego testu
         # self.prop.graph.visualize()
         prod = P13()
         results = list(prod.search_for_subgraphs(self.prop.graph))
