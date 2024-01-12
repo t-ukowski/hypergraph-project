@@ -40,6 +40,10 @@ class TestP21Production(unittest.TestCase):
         self.setUpCompleteGraph()
         self.prod.snode.R = 1  # Ustawienie R na niepoprawną wartość
 
+    def setUpGraphWithHangingNode(self):
+        self.setUpCompleteGraph()
+        self.prod.nodes[0].h = 1  # Ustawienie 1 na 1
+
     def test_p21_production_applies(self):
         self.setUpCompleteGraph()
 
@@ -85,6 +89,16 @@ class TestP21Production(unittest.TestCase):
         self.prod.graph.visualize()
 
         # Sprawdź, czy nie znaleziono podgrafów (produkcja nie powinna być stosowana z niepoprawną wartością R)
+        self.assertEqual(len(results), 0)
+
+    def test_p21_production_does_not_apply_because_hanging_node(self):
+        self.setUpGraphWithHangingNode()
+        self.prod.graph.visualize()
+        prod = P21()
+        results = list(prod.search_for_subgraphs(self.prod.graph))
+        self.prod.graph.visualize()
+
+        # Sprawdź, czy nie znaleziono podgrafów (produkcja nie powinna być stosowana z niepoprawną wartością H)
         self.assertEqual(len(results), 0)
 
 
