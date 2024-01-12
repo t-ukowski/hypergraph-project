@@ -12,22 +12,16 @@ class TestP5Production(unittest.TestCase):
         node = Node(5, 2, 0)
         self.prod.nodes.append(node)
         self.prod.graph.add_node(node)
-        self.prod.graph.add_edge(
-            self.prod.nodes[4], node
-        )
+        self.prod.graph.add_edge(self.prod.nodes[4], node)
 
     def setUpIncompleteGraphWithMissingVertex(self):
         self.setUpCompleteGraph()
-        self.prod.graph.remove_node(
-            self.prod.nodes[3]
-        )
+        self.prod.graph.remove_node(self.prod.nodes[3])
 
     def setUpIncompleteGraphWithMissingEdge(self):
         self.setUpCompleteGraph()
         self.prod.graph.remove_edge(
-            self.prod.nodes[2],
-            self.prod.nodes[4],
-            self.prod.enodes[2]
+            self.prod.nodes[2], self.prod.nodes[4], self.prod.enodes[2]
         )
 
     def setUpGraphWithIncorrectR(self):
@@ -49,10 +43,32 @@ class TestP5Production(unittest.TestCase):
 
         expected_num_edges = 16
         self.assertEqual(self.prod.graph.get_number_of_edges(), expected_num_edges)
+        # self.prod.graph.visualize()
+
+    def test_p5_production_applies_B_edge(self):
+        self.setUpCompleteGraph()
+        prod = P5()
+        self.prod.enodes[3].B = 1
+        # self.prod.graph.visualize()
+        results = prod.search_for_subgraphs(self.prod.graph)
+
+        for subgraph in results:
+            prod.apply_production(self.prod.graph, subgraph)
+            break
+
+        # Aserty
+        expected_num_nodes = 9
+        self.assertEqual(self.prod.graph.get_number_of_nodes(), expected_num_nodes)
+
+        expected_num_edges = 16
+        self.assertEqual(self.prod.graph.get_number_of_edges(), expected_num_edges)
+        # self.prod.graph.visualize()
 
     def test_p5_production_applies_to_larger_graph(self):
         self.setUpLargerCompleteGraph()
         prod = P5()
+        # self.prod.graph.visualize()
+
         results = prod.search_for_subgraphs(self.prod.graph)
         for subgraph in results:
             prod.apply_production(self.prod.graph, subgraph)
@@ -63,13 +79,16 @@ class TestP5Production(unittest.TestCase):
 
         expected_num_edges = 17
         self.assertEqual(self.prod.graph.get_number_of_edges(), expected_num_edges)
+        # self.prod.graph.visualize()
 
     def test_p5_production_does_not_apply_because_missing_vertex(self):
         self.setUpIncompleteGraphWithMissingVertex()
+        # self.prod.graph.visualize()
         prod = P5()
         results = list(prod.search_for_subgraphs(self.prod.graph))
 
         self.assertEqual(len(results), 0)
+        # self.prod.graph.visualize()
 
     def test_p5_production_does_not_apply_because_missing_edge(self):
         self.setUpIncompleteGraphWithMissingEdge()
@@ -80,10 +99,21 @@ class TestP5Production(unittest.TestCase):
 
     def test_p5_production_does_not_apply_because_incorrect_R(self):
         self.setUpGraphWithIncorrectR()
+        # self.prod.graph.visualize()
         prod = P5()
         results = list(prod.search_for_subgraphs(self.prod.graph))
 
         self.assertEqual(len(results), 0)
+        # self.prod.graph.visualize()
+
+    def test_p5_production_does_not_apply_to_h_nodes(self):
+        self.setUpCompleteGraph()
+        prod = P5()
+        self.prod.nodes[0].h = 1
+        # self.prod.graph.visualize()
+        results = list(prod.search_for_subgraphs(self.prod.graph))
+        self.assertEqual(len(results), 0)
+        # self.prod.graph.visualize()
 
 
 if __name__ == "__main__":

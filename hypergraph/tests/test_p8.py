@@ -12,22 +12,16 @@ class Testp8Production(unittest.TestCase):
         node = Node(5, 2, 0)
         self.prod.nodes.append(node)
         self.prod.graph.add_node(node)
-        self.prod.graph.add_edge(
-            self.prod.nodes[4], node
-        )
+        self.prod.graph.add_edge(self.prod.nodes[4], node)
 
     def setUpIncompleteGraphWithMissingVertex(self):
         self.setUpCompleteGraph()
-        self.prod.graph.remove_node(
-            self.prod.nodes[3]
-        )
+        self.prod.graph.remove_node(self.prod.nodes[3])
 
     def setUpIncompleteGraphWithMissingEdge(self):
         self.setUpCompleteGraph()
         self.prod.graph.remove_edge(
-            self.prod.nodes[2],
-            self.prod.nodes[4],
-            self.prod.enodes[1]
+            self.prod.nodes[2], self.prod.nodes[4], self.prod.enodes[1]
         )
 
     def setUpGraphWithIncorrectR(self):
@@ -36,6 +30,8 @@ class Testp8Production(unittest.TestCase):
 
     def test_p8_production_applies(self):
         self.setUpCompleteGraph()
+        # self.prod.graph.visualize()
+
         prod = P8()
         results = prod.search_for_subgraphs(self.prod.graph)
 
@@ -49,9 +45,12 @@ class Testp8Production(unittest.TestCase):
 
         expected_num_edges = 4
         self.assertEqual(self.prod.graph.get_number_of_edges(), expected_num_edges)
+        # self.prod.graph.visualize()
 
     def test_p8_production_applies_to_larger_graph(self):
         self.setUpLargerCompleteGraph()
+        # self.prod.graph.visualize()
+
         prod = P8()
         results = prod.search_for_subgraphs(self.prod.graph)
         for subgraph in results:
@@ -63,6 +62,7 @@ class Testp8Production(unittest.TestCase):
 
         expected_num_edges = 5
         self.assertEqual(self.prod.graph.get_number_of_edges(), expected_num_edges)
+        # self.prod.graph.visualize()
 
     def test_p8_production_does_not_apply_because_missing_vertex(self):
         self.setUpIncompleteGraphWithMissingVertex()
@@ -73,17 +73,23 @@ class Testp8Production(unittest.TestCase):
 
     def test_p8_production_does_not_apply_because_missing_edge(self):
         self.setUpIncompleteGraphWithMissingEdge()
+        # self.prod.graph.visualize()
+
         prod = P8()
         results = list(prod.search_for_subgraphs(self.prod.graph))
 
         self.assertEqual(len(results), 0)
+        # self.prod.graph.visualize()
 
     def test_p8_production_does_not_apply_because_incorrect_R(self):
         self.setUpGraphWithIncorrectR()
+        # self.prod.graph.visualize()
+
         prod = P8()
         results = list(prod.search_for_subgraphs(self.prod.graph))
 
         self.assertEqual(len(results), 0)
+        # self.prod.graph.visualize()
 
 
 if __name__ == "__main__":
