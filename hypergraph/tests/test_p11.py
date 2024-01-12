@@ -69,11 +69,35 @@ class TestP12Production(unittest.TestCase):
     def test_p11_production_applies_to_larger_graph(self):
         self.setUpLargerCompleteGraph()
         prod = P11()
+        self.prop.graph.visualize()
         results = prod.search_for_subgraphs(self.prop.graph)
         for subgraph in results:
             prod.apply_production(self.prop.graph, subgraph)
             break
 
+        self.prop.graph.visualize()
+        # Aserty
+        # 1. Sprawdź liczbę węzłów
+        expected_num_nodes = 14  # Dodano jeden nowy węzeł w centrum
+        self.assertEqual(self.prop.graph.get_number_of_nodes(), expected_num_nodes)
+
+        # 2. Sprawdź liczbę krawędzi
+        expected_num_edges = 25  # 4 oryginalne krawędzie są podzielone na 8, a do węzła centralnego dodane są 4 nowe krawędzie
+        self.assertEqual(self.prop.graph.get_number_of_edges(), expected_num_edges)
+
+    def test_p11_production_applies_to_larger_graph_with_border_edge(self):
+        self.setUpLargerCompleteGraph()
+        # Set B = 1 on one of edges
+        self.prop.enodes_dict[self.prop.nodes[3], self.prop.nodes[5]].B = 1
+
+        prod = P11()
+        self.prop.graph.visualize()
+        results = prod.search_for_subgraphs(self.prop.graph)
+        for subgraph in results:
+            prod.apply_production(self.prop.graph, subgraph)
+            break
+
+        self.prop.graph.visualize()
         # Aserty
         # 1. Sprawdź liczbę węzłów
         expected_num_nodes = 14  # Dodano jeden nowy węzeł w centrum
@@ -86,7 +110,9 @@ class TestP12Production(unittest.TestCase):
     def test_p11_production_does_not_apply_because_missing_vertex(self):
         self.setUpIncompleteGraphWithMissingVertex()  # Ustawienie niekompletnego grafu dla tego testu
         prod = P11()
+        self.prop.graph.visualize()
         results = list(prod.search_for_subgraphs(self.prop.graph))
+        self.prop.graph.visualize()
 
         # Sprawdź, czy nie znaleziono podgrafów (produkcja nie powinna być stosowana)
         self.assertEqual(len(results), 0)
@@ -94,7 +120,10 @@ class TestP12Production(unittest.TestCase):
     def test_p11_production_does_not_apply_because_missing_edge(self):
         self.setUpIncompleteGraphWithMissingEdge()  # Ustawienie grafu z brakującą krawędzią dla tego testu
         prod = P11()
+        self.prop.graph.visualize()
+
         results = list(prod.search_for_subgraphs(self.prop.graph))
+        self.prop.graph.visualize()
 
         # Sprawdź, czy nie znaleziono podgrafów (produkcja nie powinna być stosowana z brakującą krawędzią)
         self.assertEqual(len(results), 0)
@@ -102,7 +131,11 @@ class TestP12Production(unittest.TestCase):
     def test_p11_production_does_not_apply_because_incorrect_R(self):
         self.setUpGraphWithIncorrectR()  # Ustawienie grafu z niepoprawną wartością R dla tego testu
         prod = P11()
+        self.prop.graph.visualize()
+
         results = list(prod.search_for_subgraphs(self.prop.graph))
+        self.prop.graph.visualize()
+
 
         # Sprawdź, czy nie znaleziono podgrafów (produkcja nie powinna być stosowana z niepoprawną wartością R)
         self.assertEqual(len(results), 0)
@@ -110,7 +143,10 @@ class TestP12Production(unittest.TestCase):
     def test_p11_production_does_not_apply_because_of_different_graph(self):
         self.setUpDifferentGraph()  # Ustawienie lewej strony na inną niż oczekiwana przez P12
         prod = P11()
+        self.prop.graph.visualize()
+
         results = list(prod.search_for_subgraphs(self.prop.graph))
+        self.prop.graph.visualize()
 
         # Sprawdź, czy nie znaleziono podgrafów (produkcja nie powinna być stosowana z niepoprawną wartością R)
         self.assertEqual(len(results), 0)

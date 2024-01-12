@@ -154,27 +154,52 @@ class Graph:
 
         return node, e1, e2
 
+
     def visualize(self):
         pos = {node: (node.x, node.y) for node in self.G.nodes}
-        labels = {node: node.label for node in self.G.nodes}
+        labels = {}
+        for node in self.G.nodes:
+            if node.label == "V":
+                labels[node] =  f"{node.label}\nh={node.h}"
+            elif node.label == "S":
+                labels[node] =  f"{node.label}\nR={node.R}"
+            elif node.label == "E":
+                labels[node] =  f"{node.label}\nB={node.B}"
         color_map = []
 
         for node in self.G:
             if node.label == "Q":
-                color_map.append("lightgreen")
+                color_map.append('lightgreen')
             elif node.label == "E":
                 color_map.append("lightgrey")
             else:
-                color_map.append("lightblue")
+                color_map.append('lightblue')
 
-        nx.draw(
-            self.G,
-            pos=pos,
-            with_labels=True,
-            labels=labels,
-            node_color=color_map,
-            node_size=400,
-            font_size=10,
-            edge_color="gray",
-        )
+        nx.draw(self.G, pos=pos, with_labels=True, labels=labels, node_color=color_map, node_size=400, font_size=8,
+                edge_color='gray')
         plt.show()
+
+    # def visualize(self):
+    #     pos = {node: (node.x, node.y) for node in self.G.nodes}
+    #     labels = {node: node.label for node in self.G.nodes}
+    #     color_map = []
+    #
+    #     for node in self.G:
+    #         if node.label == "Q":
+    #             color_map.append("lightgreen")
+    #         elif node.label == "E":
+    #             color_map.append("lightgrey")
+    #         else:
+    #             color_map.append("lightblue")
+    #
+    #     nx.draw(
+    #         self.G,
+    #         pos=pos,
+    #         with_labels=True,
+    #         labels=labels,
+    #         node_color=color_map,
+    #         node_size=400,
+    #         font_size=10,
+    #         edge_color="gray",
+    #     )
+    #     plt.show()
