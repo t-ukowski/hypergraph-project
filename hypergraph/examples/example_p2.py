@@ -1,4 +1,4 @@
-from ..productions import P2
+from hypergraph.productions import P2
 from hypergraph.structures import Node, Graph
 
 node1 = Node(0, 0, 0)

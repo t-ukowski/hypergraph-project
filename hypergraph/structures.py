@@ -2,7 +2,7 @@ import networkx as nx
 import matplotlib.pyplot as plt
 import matplotlib
 
-matplotlib.use("TkAgg")
+matplotlib.use('TkAgg')
 
 
 class Node:
@@ -60,7 +60,8 @@ class Graph:
 
     def add_q_node(self, n1, n2, n3, n4):
         node = QNode(
-            x=(n1.x + n2.x + n3.x + n4.x) / 4, y=(n1.y + n2.y + n3.y + n4.y) / 4
+            x=(n1.x + n2.x + n3.x + n4.x) / 4,
+            y=(n1.y + n2.y + n3.y + n4.y) / 4
         )
         self.G.add_node(node, node=node)
         self.add_hyperedge(n1, node)
@@ -95,8 +96,12 @@ class Graph:
     def remove_q_node(self, v1: QNode):
         self.G.remove_node(v1)
 
-    def add_edge(self, v1: Node, v2: Node):
-        node = ENode(x=(v1.x + v2.x) / 2, y=(v1.y + v2.y) / 2)
+    def add_edge(self, v1: Node, v2: Node, B=0):
+        node = ENode(
+            x=(v1.x + v2.x) / 2,
+            y=(v1.y + v2.y) / 2,
+            B=B
+        )
         if v1 not in self:
             raise ValueError(f"{v1} not in graph")
         if v2 not in self:
@@ -145,15 +150,18 @@ class Graph:
         if e1 not in self:
             raise ValueError(f"{e1} not in graph")
 
-        node = Node(x=e1.x, y=e1.y, h=1 - e1.B)
+        node = Node(
+            x=e1.x,
+            y=e1.y,
+            h=1 - e1.B
+        )
 
         self.remove_edge(v1, v2, e1)
         self.add_node(node)
-        e1 = self.add_edge(v1, node)
-        e2 = self.add_edge(node, v2)
+        e1 = self.add_edge(v1, node, e1.B)
+        e2 = self.add_edge(node, v2, e1.B)
 
         return node, e1, e2
-
 
     def visualize(self):
         pos = {node: (node.x, node.y) for node in self.G.nodes}
@@ -161,7 +169,7 @@ class Graph:
         for node in self.G.nodes:
             if node.label == "V":
                 labels[node] =  f"{node.label}\nh={node.h}"
-            elif node.label == "S":
+            elif node.label == "Q":
                 labels[node] =  f"{node.label}\nR={node.R}"
             elif node.label == "E":
                 labels[node] =  f"{node.label}\nB={node.B}"
@@ -178,28 +186,3 @@ class Graph:
         nx.draw(self.G, pos=pos, with_labels=True, labels=labels, node_color=color_map, node_size=400, font_size=8,
                 edge_color='gray')
         plt.show()
-
-    # def visualize(self):
-    #     pos = {node: (node.x, node.y) for node in self.G.nodes}
-    #     labels = {node: node.label for node in self.G.nodes}
-    #     color_map = []
-    #
-    #     for node in self.G:
-    #         if node.label == "Q":
-    #             color_map.append("lightgreen")
-    #         elif node.label == "E":
-    #             color_map.append("lightgrey")
-    #         else:
-    #             color_map.append("lightblue")
-    #
-    #     nx.draw(
-    #         self.G,
-    #         pos=pos,
-    #         with_labels=True,
-    #         labels=labels,
-    #         node_color=color_map,
-    #         node_size=400,
-    #         font_size=10,
-    #         edge_color="gray",
-    #     )
-    #     plt.show()

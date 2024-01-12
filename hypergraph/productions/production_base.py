@@ -9,7 +9,6 @@ class ProductionBase:
         self.qnode = None
         self.left_graph = None
 
-    # PREDYKAT STOSOWALNOŚCI
     def node_match(self, n1, n2):
         raise NotImplementedError("This method should be implemented in a subclass")
 
@@ -18,6 +17,5 @@ class ProductionBase:
             raise ValueError("Left graph not set")
         return nx.isomorphism.GraphMatcher(graph.G, self.left_graph.G, node_match=self.node_match).subgraph_isomorphisms_iter()
 
-    # WYKONANIE PRODUKCJI
     def apply_production(self, graph, mapping):
         raise NotImplementedError("This method should be implemented in a subclass")
