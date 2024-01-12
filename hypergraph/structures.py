@@ -2,7 +2,7 @@ import networkx as nx
 import matplotlib.pyplot as plt
 import matplotlib
 
-matplotlib.use('TkAgg')
+matplotlib.use("TkAgg")
 
 
 class Node:
@@ -19,6 +19,14 @@ class QNode:
         self.y = y
         self.R = R
         self.label = "Q"
+
+
+class SNode:
+    def __init__(self, x: float, y: float, R=0):
+        self.x = x
+        self.y = y
+        self.R = R
+        self.label = "S"
 
 
 class ENode:
@@ -45,14 +53,28 @@ class Graph:
 
     def add_q_node(self, n1, n2, n3, n4):
         node = QNode(
-            x=(n1.x + n2.x + n3.x + n4.x) / 4,
-            y=(n1.y + n2.y + n3.y + n4.y) / 4
+            x=(n1.x + n2.x + n3.x + n4.x) / 4, y=(n1.y + n2.y + n3.y + n4.y) / 4
         )
         self.G.add_node(node, node=node)
         self.add_hyperedge(n1, node)
         self.add_hyperedge(n2, node)
         self.add_hyperedge(n3, node)
         self.add_hyperedge(n4, node)
+
+        return node
+
+    def add_s_node(self, n1, n2, n3, n4, n5, n6):
+        node = SNode(
+            x=(n1.x + n2.x + n3.x + n4.x + n5.x + n6.x) / 6,
+            y=(n1.y + n2.y + n3.y + n4.y + n5.y + n6.y) / 6,
+        )
+        self.G.add_node(node, node=node)
+        self.add_hyperedge(n1, node)
+        self.add_hyperedge(n2, node)
+        self.add_hyperedge(n3, node)
+        self.add_hyperedge(n4, node)
+        self.add_hyperedge(n5, node)
+        self.add_hyperedge(n6, node)
 
         return node
 
@@ -120,11 +142,7 @@ class Graph:
         if e1 not in self:
             raise ValueError(f"{e1} not in graph")
 
-        node = Node(
-            x=e1.x,
-            y=e1.y,
-            h=1 - e1.B
-        )
+        node = Node(x=e1.x, y=e1.y, h=1 - e1.B)
 
         self.remove_edge(v1, v2, e1)
         self.add_node(node)
@@ -147,12 +165,20 @@ class Graph:
 
         for node in self.G:
             if node.label == "Q":
-                color_map.append('lightgreen')
+                color_map.append("lightgreen")
             elif node.label == "E":
                 color_map.append("lightgrey")
             else:
-                color_map.append('lightblue')
+                color_map.append("lightblue")
 
-        nx.draw(self.G, pos=pos, with_labels=True, labels=labels, node_color=color_map, node_size=400, font_size=8,
-                edge_color='gray')
+        nx.draw(
+            self.G,
+            pos=pos,
+            with_labels=True,
+            labels=labels,
+            node_color=color_map,
+            node_size=400,
+            font_size=10,
+            edge_color="gray",
+        )
         plt.show()
