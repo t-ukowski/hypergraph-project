@@ -43,11 +43,14 @@ class TestP22Production(unittest.TestCase):
 
     def test_p22_production_applies_to_larger_graph(self):
         self.setUpLargerCompleteGraph()
+        self.prod.graph.visualize()
+
         prod = P22()
         results = prod.search_for_subgraphs(prod.graph)
         for subgraph in results:
             self.prod.apply_production(self.prod.graph, subgraph)
             break
+        self.prod.graph.visualize()
 
         self.assertEqual(self.prod.snode.R,  1)
 

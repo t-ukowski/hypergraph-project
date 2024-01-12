@@ -39,6 +39,8 @@ class P22(ProductionBase):
             self.nodes[6]
         )
 
+        self.nodes[4].h = 1
+
         self.qnode.R = 1
 
         self.graph.add_edge(self.nodes[1], self.nodes[4])

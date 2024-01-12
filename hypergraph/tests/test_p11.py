@@ -90,6 +90,8 @@ class TestP12Production(unittest.TestCase):
         # Set B = 1 on one of edges
         self.prop.enodes_dict[self.prop.nodes[3], self.prop.nodes[5]].B = 1
 
+        self.prop.nodes[0].h = 1
+
         prod = P11()
         self.prop.graph.visualize()
         results = prod.search_for_subgraphs(self.prop.graph)
