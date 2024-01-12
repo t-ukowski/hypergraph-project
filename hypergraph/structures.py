@@ -153,7 +153,7 @@ class Graph:
         node = Node(
             x=e1.x,
             y=e1.y,
-            h=1 - e1.B
+            h= 0 if e1.B == 1 else 1
         )
 
         self.remove_edge(v1, v2, e1)
@@ -169,7 +169,7 @@ class Graph:
         for node in self.G.nodes:
             if node.label == "V":
                 labels[node] =  f"{node.label}\nh={node.h}"
-            elif node.label == "Q":
+            elif node.label == "Q" or node.label == "S":
                 labels[node] =  f"{node.label}\nR={node.R}"
             elif node.label == "E":
                 labels[node] =  f"{node.label}\nB={node.B}"

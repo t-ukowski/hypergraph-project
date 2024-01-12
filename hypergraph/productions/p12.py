@@ -113,6 +113,9 @@ class P12(ProductionBase):
             v_6_1,
         ]
 
+        mapping[self.nodes[6]].h = 0
+        mapping[self.nodes[7]].h = 0
+
         mid_node = Node(x=mapping[self.qnode].x, y=mapping[self.qnode].y, h=0)
 
         graph.remove_q_node(mapping[self.qnode])

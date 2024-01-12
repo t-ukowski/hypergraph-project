@@ -113,6 +113,9 @@ class P11(ProductionBase):
             mapping[self.nodes[7]],
         ]
 
+        mapping[self.nodes[6]].h = 0
+        mapping[self.nodes[7]].h = 0
+
         mid_node = Node(x=mapping[self.qnode].x, y=mapping[self.qnode].y, h=0)
 
         graph.remove_q_node(mapping[self.qnode])
@@ -123,6 +126,7 @@ class P11(ProductionBase):
 
         # Add hyperedges
         add_q_nodes(graph, nodes_in_order, mid_node)
+
 
 
 def add_q_nodes(graph: Graph, nodes_in_order: List[Node], mid_node: Node):

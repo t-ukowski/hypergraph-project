@@ -64,5 +64,6 @@ class P22(ProductionBase):
         return True
 
     def apply_production(self, graph, mapping):
-        self.snode.R = 1
-        print(self.snode.R)
+        mapping = {v: k for k, v in mapping.items()}
+        mapping[self.snode].R = 1
+        print(mapping[self.snode].R)
