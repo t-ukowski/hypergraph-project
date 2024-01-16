@@ -31,45 +31,54 @@ class TestP22Production(unittest.TestCase):
 
     def test_p22_production_applies(self):
         self.setUpCompleteGraph()
-
         prod = P22()
+
         results = prod.search_for_subgraphs(self.prod.graph)
 
         for subgraph in results:
-            self.prod.apply_production(self.prod.graph, subgraph)
+            prod.apply_production(self.prod.graph, subgraph)
             break
 
         self.assertEqual(self.prod.snode.R, 1)
 
-    def test_p22_production_applies_to_larger_graph(self):
-        self.setUpLargerCompleteGraph()
-        self.prod.graph.visualize()
+    def test_p22_production_does_not_apply_when_h_is_zero(self):
+        self.setUpCompleteGraph()
 
         prod = P22()
-        results = prod.search_for_subgraphs(prod.graph)
+        self.prod.nodes[4].h = 0
+
+        results = prod.search_for_subgraphs(self.prod.graph)
+
         for subgraph in results:
-            self.prod.apply_production(self.prod.graph, subgraph)
+            prod.apply_production(self.prod.graph, subgraph)
             break
-        self.prod.graph.visualize()
+
+        self.assertEqual(self.prod.snode.R, 0)
+
+    def test_p22_production_applies_to_larger_graph(self):
+        self.setUpLargerCompleteGraph()
+
+        prod = P22()
+        results = prod.search_for_subgraphs(self.prod.graph)
+        for subgraph in results:
+            prod.apply_production(self.prod.graph, subgraph)
+            break
 
         self.assertEqual(self.prod.snode.R,  1)
-
 
     def test_p22_production_doesnt_apply_to_incomplete_graph(self):
         self.setUpIncompleteGraphWithMissingVertex()
         prod = P22()
         results = prod.search_for_subgraphs(self.prod.graph)
         for subgraph in results:
-            self.prod.apply_production(self.prod.graph, subgraph)
+            prod.apply_production(self.prod.graph, subgraph)
             break
-
         self.assertEqual(self.prod.snode.R, 0)
 
     def test_p22_production_doesnt_apply_to_incorrect_graph(self):
         self.setUpGraphWithIncorrectR()
         prod = P22()
         results = prod.search_for_subgraphs(self.prod.graph)
-
         self.assertEqual(len(list(results)), 0)
 
 
