@@ -51,8 +51,11 @@ class Graph:
         self.normal_nodes.append(node)
         self.G.add_node(node, node=node)
 
-    def add_q_node(self, n1, n2, n3, n4):
+    def add_q_node(self, n1, n2, n3, n4, R=0):
         node = QNode(
+            x=(n1.x + n2.x + n3.x + n4.x) / 4,
+            y=(n1.y + n2.y + n3.y + n4.y) / 4,
+            R=R
             x=(n1.x + n2.x + n3.x + n4.x) / 4, y=(n1.y + n2.y + n3.y + n4.y) / 4
         )
         self.G.add_node(node, node=node)
