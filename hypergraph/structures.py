@@ -36,6 +36,13 @@ class ENode:
         self.B = B
         self.label = "E"
 
+
+class Edge:
+    def __init__(self, v1: Node, v2: Node):
+        self.v1 = v1
+        self.v2 = v2
+
+
 class Graph:
     def __init__(self):
         self.G = nx.Graph()
@@ -51,9 +58,11 @@ class Graph:
         self.normal_nodes.append(node)
         self.G.add_node(node, node=node)
 
-    def add_q_node(self, n1, n2, n3, n4):
+    def add_q_node(self, n1, n2, n3, n4, R=0):
         node = QNode(
-            x=(n1.x + n2.x + n3.x + n4.x) / 4, y=(n1.y + n2.y + n3.y + n4.y) / 4
+            x=(n1.x + n2.x + n3.x + n4.x) / 4,
+            y=(n1.y + n2.y + n3.y + n4.y) / 4,
+            R=R
         )
         self.G.add_node(node, node=node)
         self.add_hyperedge(n1, node)
@@ -145,7 +154,7 @@ class Graph:
         node = Node(
             x=e1.x,
             y=e1.y,
-            h=1 - e1.B
+            h= 0 if e1.B == 1 else 1
         )
 
         self.remove_edge(v1, v2, e1)
@@ -186,7 +195,7 @@ class Graph:
             labels=labels,
             node_color=color_map,
             node_size=400,
-            font_size=8,
+            font_size=10,
             edge_color="gray",
         )
         plt.show()

@@ -3,7 +3,7 @@ from hypergraph.structures import Graph, Node
 from typing import *
 
 
-class P15(ProductionBase):
+class P12(ProductionBase):
     def __init__(self):
         super().__init__()
         self.nodes = [
@@ -14,8 +14,7 @@ class P15(ProductionBase):
             Node(4, 2, 0),
             Node(-2, 2, 0),
             Node(1, 0, 1),
-            Node(-1, 1, 1),
-            Node(1, 4, 1),
+            Node(-1, 3, 1),
         ]
 
         self.nodes_in_order = [
@@ -24,10 +23,9 @@ class P15(ProductionBase):
             self.nodes[1],
             self.nodes[4],
             self.nodes[2],
-            self.nodes[8],
             self.nodes[3],
-            self.nodes[5],
             self.nodes[7],
+            self.nodes[5],
         ]
 
         for node in self.nodes:
@@ -45,7 +43,7 @@ class P15(ProductionBase):
         self.qnode.R = 1
 
         self.enodes_dict = {
-            (n1, n2): self.graph.add_edge(n1, n2, B=1)
+            (n1, n2): self.graph.add_edge(n1, n2)
             for n1, n2 in zip(
                 self.nodes_in_order, self.nodes_in_order[1:] + [self.nodes_in_order[0]]
             )
@@ -88,10 +86,16 @@ class P15(ProductionBase):
             mapping[self.enodes_dict[(self.nodes[4], self.nodes[2])]],
         )
 
-        v_4_6, _, _ = graph.split_edge(
+        v_3_4, _, _ = graph.split_edge(
+            mapping[self.nodes[2]],
             mapping[self.nodes[3]],
+            mapping[self.enodes_dict[(self.nodes[2], self.nodes[3])]],
+        )
+
+        v_6_1, _, _ = graph.split_edge(
             mapping[self.nodes[5]],
-            mapping[self.enodes_dict[(self.nodes[3], self.nodes[5])]],
+            mapping[self.nodes[0]],
+            mapping[self.enodes_dict[(self.nodes[5], self.nodes[0])]],
         )
 
         nodes_in_order = [
@@ -102,12 +106,15 @@ class P15(ProductionBase):
             mapping[self.nodes[4]],
             v_5_3,
             mapping[self.nodes[2]],
-            mapping[self.nodes[8]],
+            v_3_4,
             mapping[self.nodes[3]],
-            v_4_6,
-            mapping[self.nodes[5]],
             mapping[self.nodes[7]],
+            mapping[self.nodes[5]],
+            v_6_1,
         ]
+
+        mapping[self.nodes[6]].h = 0
+        mapping[self.nodes[7]].h = 0
 
         mid_node = Node(x=mapping[self.qnode].x, y=mapping[self.qnode].y, h=0)
 
@@ -119,10 +126,6 @@ class P15(ProductionBase):
 
         # Add hyperedges
         add_q_nodes(graph, nodes_in_order, mid_node)
-
-        mapping[self.nodes[6]].h = 0
-        mapping[self.nodes[7]].h = 0
-        mapping[self.nodes[8]].h = 0
 
 
 def add_q_nodes(graph: Graph, nodes_in_order: List[Node], mid_node: Node):

@@ -44,7 +44,7 @@ class P13(ProductionBase):
         self.qnode.R = 1
 
         self.enodes_dict = {
-            (n1, n2): self.graph.add_edge(n1, n2)
+            (n1, n2): self.graph.add_edge(n1, n2, B=1)
             for n1, n2 in zip(
                 self.nodes_in_order, self.nodes_in_order[1:] + [self.nodes_in_order[0]]
             )
@@ -124,6 +124,9 @@ class P13(ProductionBase):
 
         # Add hyperedges
         add_q_nodes(graph, nodes_in_order, mid_node)
+
+        mapping[self.nodes[6]].h = 0
+        mapping[self.nodes[7]].h = 0
 
 
 def add_q_nodes(graph: Graph, nodes_in_order: List[Node], mid_node: Node):
