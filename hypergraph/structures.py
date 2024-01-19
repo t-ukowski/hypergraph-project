@@ -2,7 +2,7 @@ import networkx as nx
 import matplotlib.pyplot as plt
 import matplotlib
 
-matplotlib.use('TkAgg')
+matplotlib.use("TkAgg")
 
 
 class Node:
@@ -58,10 +58,12 @@ class Graph:
         self.normal_nodes.append(node)
         self.G.add_node(node, node=node)
 
-    def add_q_node(self, n1, n2, n3, n4):
+    def add_q_node(self, n1, n2, n3, n4, R=0):
         node = QNode(
             x=(n1.x + n2.x + n3.x + n4.x) / 4,
-            y=(n1.y + n2.y + n3.y + n4.y) / 4
+            y=(n1.y + n2.y + n3.y + n4.y) / 4,
+            R=R
+            x=(n1.x + n2.x + n3.x + n4.x) / 4, y=(n1.y + n2.y + n3.y + n4.y) / 4
         )
         self.G.add_node(node, node=node)
         self.add_hyperedge(n1, node)
@@ -177,12 +179,20 @@ class Graph:
 
         for node in self.G:
             if node.label == "Q":
-                color_map.append('lightgreen')
+                color_map.append("lightgreen")
             elif node.label == "E":
                 color_map.append("lightgrey")
             else:
-                color_map.append('lightblue')
+                color_map.append("lightblue")
 
-        nx.draw(self.G, pos=pos, with_labels=True, labels=labels, node_color=color_map, node_size=400, font_size=8,
-                edge_color='gray')
+        nx.draw(
+            self.G,
+            pos=pos,
+            with_labels=True,
+            labels=labels,
+            node_color=color_map,
+            node_size=400,
+            font_size=10,
+            edge_color="gray",
+        )
         plt.show()
