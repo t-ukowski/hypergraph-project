@@ -10,7 +10,7 @@ class P22(ProductionBase):
             Node(2, 0, 0),  # 2
             Node(2, 2, 0),  # 3
             Node(0, 2, 0),  # 4
-            Node(2, 1, 0),  # 5
+            Node(2, 1, 1),  # 5
             Node(4, 1, 0),  # 6
             Node(4, 2, 0),  # 7
             Node(1, 0, 0),  # 8
@@ -61,8 +61,9 @@ class P22(ProductionBase):
             if n1.R != n2.R:
                 return False
         if n1.label == "V":
-            if n1.h != n2.h:
-                return False
+            if n1 == self.nodes[4] or n2 == self.nodes[4]:
+                if n1.h != n2.h:
+                    return False
         return True
 
     def apply_production(self, graph, mapping):

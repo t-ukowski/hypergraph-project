@@ -43,8 +43,9 @@ class P8(ProductionBase):
             if n1.R != n2.R:
                 return False
         if n1.label == "V":
-            if n1.h != n2.h:
-                return False
+            if n1 == self.nodes[4] or n2 == self.nodes[4]:
+                if n1.h != n2.h:
+                    return False
         return True
 
     def apply_production(self, graph, mapping):
