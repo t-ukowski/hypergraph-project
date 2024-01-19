@@ -1,15 +1,15 @@
 import unittest
 from hypergraph.structures import Node
-from hypergraph.productions.p9 import P9
+from hypergraph.productions.p10 import P10
 
 
 class TestP9Production(unittest.TestCase):
     def setUpCompleteGraph(self):
-        # Ustawienie dla kompletnego grafu (używane w teście test_p9_production_applies)
-        self.prod = P9()
+        # Ustawienie dla kompletnego grafu (używane w teście test_p10_production_applies)
+        self.prod = P10()
 
     def setUpLargerCompleteGraph(self):
-        # Ustawienie dla kompletnego grafu (używane w teście test_p1_production_applies_to_larger_graph)
+        # Ustawienie dla kompletnego grafu (używane w teście test_p10_production_applies_to_larger_graph)
         self.setUpCompleteGraph()
         node = Node(5, 2, 0)
         self.prod.nodes.append(node)
@@ -29,9 +29,9 @@ class TestP9Production(unittest.TestCase):
         # Ustawienie dla grafu z brakującą krawędzią (używane w teście test_p1_production_does_not_apply_because_missing_edge)
         self.setUpCompleteGraph()
         self.prod.graph.remove_edge(
-            self.prod.nodes[0],
             self.prod.nodes[1],
-            self.prod.enodes[0],
+            self.prod.nodes[4],
+            self.prod.enodes[2],
         )  # Celowo pomijamy krawędź między node1 a node2
         # Celowo pomijamy krawędź między node3 a node4
 
@@ -40,9 +40,9 @@ class TestP9Production(unittest.TestCase):
         self.setUpCompleteGraph()
         self.prod.snode.R = 0  # Ustawienie R na niepoprawną wartość
 
-    def test_p9_production_applies(self):
+    def test_p10_production_applies(self):
         self.setUpCompleteGraph()
-        prod = P9()
+        prod = P10()
         results = prod.search_for_subgraphs(self.prod.graph)
 
         for subgraph in results:
@@ -56,7 +56,7 @@ class TestP9Production(unittest.TestCase):
         expected_num_edges = 24
         self.assertEqual(self.prod.graph.get_number_of_edges(), expected_num_edges)
 
-    def test_p9_production_applies_to_larger_graph(self):
+    def test_p10_production_applies_to_larger_graph(self):
         self.setUpLargerCompleteGraph()
         self.prod.graph.visualize()
         results = self.prod.search_for_subgraphs(self.prod.graph)
@@ -74,28 +74,30 @@ class TestP9Production(unittest.TestCase):
         expected_num_edges = 25  # 4 oryginalne krawędzie są podzielone na 8, a do węzła centralnego dodane są 4 nowe krawędzie
         self.assertEqual(self.prod.graph.get_number_of_edges(), expected_num_edges)
 
-    def test_p9_production_does_not_apply_because_missing_vertex(self):
+    def test_p10_production_does_not_apply_because_missing_vertex(self):
         self.setUpIncompleteGraphWithMissingVertex()  # Ustawienie niekompletnego grafu dla tego testu
         self.prod.graph.visualize()
-        prod = P9()
+        prod = P10()
         results = list(prod.search_for_subgraphs(self.prod.graph))
         self.prod.graph.visualize()
 
         # Sprawdź, czy nie znaleziono podgrafów (produkcja nie powinna być stosowana)
         self.assertEqual(len(results), 0)
 
-    def test_p9_production_does_not_apply_because_missing_edge(self):
+    def test_p10_production_does_not_apply_because_missing_edge(self):
         self.setUpIncompleteGraphWithMissingEdge()  # Ustawienie grafu z brakującą krawędzią dla tego testu
-        prod = P9()
+        self.prod.graph.visualize()
+        prod = P10()
         results = list(prod.search_for_subgraphs(self.prod.graph))
+        self.prod.graph.visualize()
 
         # Sprawdź, czy nie znaleziono podgrafów (produkcja nie powinna być stosowana z brakującą krawędzią)
         self.assertEqual(len(results), 0)
 
-    def test_p9_production_does_not_apply_because_incorrect_R(self):
+    def test_p10_production_does_not_apply_because_incorrect_R(self):
         self.setUpGraphWithIncorrectR()  # Ustawienie grafu z niepoprawną wartością R dla tego testu
         self.prod.graph.visualize()
-        prod = P9()
+        prod = P10()
         results = list(prod.search_for_subgraphs(self.prod.graph))
         self.prod.graph.visualize()
 

@@ -48,6 +48,4 @@ class P21(ProductionBase):
 
     def apply_production(self, graph, mapping):
         mapping = {v: k for k, v in mapping.items()}
-        print("DSADASFASFAS")
         self.snode.R = 1
-        print(self.snode.R)
