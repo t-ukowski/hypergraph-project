@@ -36,6 +36,13 @@ class ENode:
         self.B = B
         self.label = "E"
 
+
+class Edge:
+    def __init__(self, v1: Node, v2: Node):
+        self.v1 = v1
+        self.v2 = v2
+
+
 class Graph:
     def __init__(self):
         self.G = nx.Graph()
@@ -56,7 +63,6 @@ class Graph:
             x=(n1.x + n2.x + n3.x + n4.x) / 4,
             y=(n1.y + n2.y + n3.y + n4.y) / 4,
             R=R
-            x=(n1.x + n2.x + n3.x + n4.x) / 4, y=(n1.y + n2.y + n3.y + n4.y) / 4
         )
         self.G.add_node(node, node=node)
         self.add_hyperedge(n1, node)
@@ -145,7 +151,11 @@ class Graph:
         if e1 not in self:
             raise ValueError(f"{e1} not in graph")
 
-        node = Node(x=e1.x, y=e1.y, h=1 - e1.B)
+        node = Node(
+            x=e1.x,
+            y=e1.y,
+            h= 0 if e1.B == 1 else 1
+        )
 
         self.remove_edge(v1, v2, e1)
         self.add_node(node)
@@ -160,7 +170,7 @@ class Graph:
         for node in self.G.nodes:
             if node.label == "V":
                 labels[node] =  f"{node.label}\nh={node.h}"
-            elif node.label == "Q":
+            elif node.label == "Q" or node.label == "S":
                 labels[node] =  f"{node.label}\nR={node.R}"
             elif node.label == "E":
                 labels[node] =  f"{node.label}\nB={node.B}"
