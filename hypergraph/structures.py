@@ -63,7 +63,6 @@ class Graph:
             x=(n1.x + n2.x + n3.x + n4.x) / 4,
             y=(n1.y + n2.y + n3.y + n4.y) / 4,
             R=R
-            x=(n1.x + n2.x + n3.x + n4.x) / 4, y=(n1.y + n2.y + n3.y + n4.y) / 4
         )
         self.G.add_node(node, node=node)
         self.add_hyperedge(n1, node)
