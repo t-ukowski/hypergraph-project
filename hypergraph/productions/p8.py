@@ -4,15 +4,15 @@ import networkx as nx
 
 
 class P8(ProductionBase):
-    def __init__(self):
+    def __init__(self, h1=0, h2=0, h3=0, h4=0, h5=1, h6=0, h7=0):
         super().__init__()
-        node1 = Node(0, 0, 0)
-        node2 = Node(10, 0, 0)
-        node3 = Node(10, 10, 0)
-        node4 = Node(0, 10, 0)
-        node5 = Node(10, 5, 1)
-        node6 = Node(20, 5, 0)
-        node7 = Node(20, 10, 0)
+        node1 = Node(0, 0, h1)
+        node2 = Node(10, 0, h2)
+        node3 = Node(10, 10, h3)
+        node4 = Node(0, 10, h4)
+        node5 = Node(10, 5, h5)
+        node6 = Node(20, 5, h6)
+        node7 = Node(20, 10, h7)
 
         self.nodes = [node1, node2, node3, node4, node5, node6, node7]
         self.graph.add_node(node1)

@@ -46,6 +46,9 @@ class P2(ProductionBase):
 
     def apply_production(self, graph, mapping):
         mapping = {v: k for k, v in mapping.items()}
+        for node in mapping.values():
+            if type(node) == Node and node.h == 1:
+                node.h = 0
         # Split 4 edges
         v1, v1_e1, v1_e2 = graph.split_edge(
             mapping[self.nodes[0]], mapping[self.nodes[1]], mapping[self.enodes[0]]

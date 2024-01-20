@@ -1,14 +1,15 @@
 from hypergraph.productions.production_base import ProductionBase
-from hypergraph.structures import  Graph, Node, QNode, ENode
+from hypergraph.structures import Graph, Node, QNode, ENode
 import networkx as nx
 
+
 class P7(ProductionBase):
-    def __init__(self):
+    def __init__(self, h1=0, h2=0, h3=0, h4=0):
         super().__init__()
-        node1 = Node(0, 0, 0)
-        node2 = Node(10, 0, 0)
-        node3 = Node(10, 10, 0)
-        node4 = Node(0, 10, 0)
+        node1 = Node(0, 0, h1)
+        node2 = Node(10, 0, h2)
+        node3 = Node(10, 10, h3)
+        node4 = Node(0, 10, h4)
         self.nodes = [node1, node2, node3, node4]
         self.graph.add_node(node1)
         self.graph.add_node(node2)
@@ -20,8 +21,8 @@ class P7(ProductionBase):
 
     # Predykat stosowalnosci
     def node_match(self, n1, n2):
-        n1 = n1['node']
-        n2 = n2['node']
+        n1 = n1["node"]
+        n2 = n2["node"]
         if n1.label != n2.label:
             return False
         if n1.label == "Q":
@@ -35,5 +36,10 @@ class P7(ProductionBase):
     def apply_production(self, graph, mapping):
         mapping = {v: k for k, v in mapping.items()}
         graph.remove_q_node(mapping[self.qnode])
-        graph.add_q_node(mapping[self.nodes[0]], mapping[self.nodes[1]], mapping[self.nodes[2]], mapping[self.nodes[3]], 1)
-
+        graph.add_q_node(
+            mapping[self.nodes[0]],
+            mapping[self.nodes[1]],
+            mapping[self.nodes[2]],
+            mapping[self.nodes[3]],
+            1,
+        )

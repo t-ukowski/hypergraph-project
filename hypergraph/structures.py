@@ -12,6 +12,9 @@ class Node:
         self.h = h
         self.label = "V"
 
+    def __repr__(self) -> str:
+        return f"{self.label}({self.x}, {self.y}) h={self.h}"
+
 
 class QNode:
     def __init__(self, x: float, y: float, R=0):
@@ -19,6 +22,12 @@ class QNode:
         self.y = y
         self.R = R
         self.label = "Q"
+
+    def __repr__(self) -> str:
+        return f"{self.label}({self.x}, {self.y}) R={self.R}"
+
+    def __str__(self) -> str:
+        return f"{self.label}({self.x}, {self.y}) R={self.R}"
 
 
 class SNode:
@@ -28,6 +37,12 @@ class SNode:
         self.R = R
         self.label = "S"
 
+    def __repr__(self) -> str:
+        return f"{self.label}({self.x}, {self.y}) R={self.R}"
+
+    def __str__(self) -> str:
+        return f"{self.label}({self.x}, {self.y}) R={self.R}"
+
 
 class ENode:
     def __init__(self, x: float, y: float, B=0):
@@ -35,6 +50,12 @@ class ENode:
         self.y = y
         self.B = B
         self.label = "E"
+
+    def __repr__(self) -> str:
+        return f"{self.label}({self.x}, {self.y}) B={self.B}"
+
+    def __str__(self) -> str:
+        return f"{self.label}({self.x}, {self.y}) B={self.B}"
 
 
 class Edge:
@@ -60,9 +81,7 @@ class Graph:
 
     def add_q_node(self, n1, n2, n3, n4, R=0):
         node = QNode(
-            x=(n1.x + n2.x + n3.x + n4.x) / 4,
-            y=(n1.y + n2.y + n3.y + n4.y) / 4,
-            R=R
+            x=(n1.x + n2.x + n3.x + n4.x) / 4, y=(n1.y + n2.y + n3.y + n4.y) / 4, R=R
         )
         self.G.add_node(node, node=node)
         self.add_hyperedge(n1, node)
@@ -98,11 +117,7 @@ class Graph:
         self.G.remove_node(v1)
 
     def add_edge(self, v1: Node, v2: Node, B=0):
-        node = ENode(
-            x=(v1.x + v2.x) / 2,
-            y=(v1.y + v2.y) / 2,
-            B=B
-        )
+        node = ENode(x=(v1.x + v2.x) / 2, y=(v1.y + v2.y) / 2, B=B)
         if v1 not in self:
             raise ValueError(f"{v1} not in graph")
         if v2 not in self:
@@ -151,11 +166,7 @@ class Graph:
         if e1 not in self:
             raise ValueError(f"{e1} not in graph")
 
-        node = Node(
-            x=e1.x,
-            y=e1.y,
-            h= 0 if e1.B == 1 else 1
-        )
+        node = Node(x=e1.x, y=e1.y, h=0 if e1.B == 1 else 1)
 
         self.remove_edge(v1, v2, e1)
         self.add_node(node)
@@ -169,11 +180,11 @@ class Graph:
         labels = {}
         for node in self.G.nodes:
             if node.label == "V":
-                labels[node] =  f"{node.label}\nh={node.h}"
+                labels[node] = f"{node.label}\nh={node.h}"
             elif node.label == "Q":
-                labels[node] =  f"{node.label}\nR={node.R}"
+                labels[node] = f"{node.label}\nR={node.R}"
             elif node.label == "E":
-                labels[node] =  f"{node.label}\nB={node.B}"
+                labels[node] = f"{node.label}\nB={node.B}"
             elif node.label == "S":
                 labels[node] = f"{node.label}\nR={node.R}"
         color_map = []

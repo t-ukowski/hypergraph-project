@@ -1,6 +1,7 @@
 from hypergraph.productions.production_base import ProductionBase
-from hypergraph.structures import  Graph, Node, QNode, ENode
+from hypergraph.structures import Graph, Node, QNode, ENode, SNode
 import networkx as nx
+
 
 class P21(ProductionBase):
     def __init__(self):
@@ -48,4 +49,4 @@ class P21(ProductionBase):
 
     def apply_production(self, graph, mapping):
         mapping = {v: k for k, v in mapping.items()}
-        self.snode.R = 1
+        mapping[self.snode].R = 1
