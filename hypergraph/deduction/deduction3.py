@@ -1,4 +1,4 @@
-from hypergraph.productions import P6, P7, P1, P8
+from hypergraph.productions import P6, P7, P1, P8, P22, P2, P11, P3
 from hypergraph.structures import Node, Graph
 import numpy as np
 
@@ -75,16 +75,18 @@ def step1(graph):
     
     return graph, pivot
 
+def get_special_node(subgraph, label):
+    for node in subgraph:
+        if node.label == label:
+            return node
+    raise ValueError('No special node found')
+    
 
-def step2(graph, pivot, idx, prod):
+def mark_special_node(graph, pivot, idx, prod, label):
     best_subgraph = None
     best_dist = 1e6
     for subgraph in prod.search_for_subgraphs(graph):
-        qnode = None
-        for node in subgraph:
-            if node.label == "Q":
-                qnode = node
-                break
+        qnode = get_special_node(subgraph, label)
         q_node = np.array([qnode.x, qnode.y])
         if not pivot.is_between(q_node, idx):
             continue
@@ -93,14 +95,29 @@ def step2(graph, pivot, idx, prod):
             best_dist = dist
             best_subgraph = subgraph
     prod.apply_production(graph, best_subgraph)
+    
+    print(f'Applied {prod.__class__.__name__}')
     return graph
 
-def step3(graph, prod):
+def split_special_node(graph, prod, idx=None, label='Q'):
     for subgraph in prod.search_for_subgraphs(graph):
-        for node in subgraph:
-            print(node.x, node.y)
-        prod.apply_production(graph, subgraph)
-        break
+        if idx is None:
+            prod.apply_production(graph, subgraph)
+            break
+        else:
+            print("Dupa")
+            qnode = get_special_node(subgraph, label)
+            q_node = np.array([qnode.x, qnode.y])
+            if pivot.is_between(q_node, idx):
+                prod.apply_production(graph, subgraph)
+                break
+            else:
+                print(q_node)
+                continue
+    else:
+        raise ValueError('No subgraph found')
+    
+    print(f'Applied {prod.__class__.__name__}')
     
     return graph
 
@@ -110,20 +127,48 @@ if __name__ == "__main__":
     graph = Graph()
 
     graph, pivot = step1(graph)
+    # graph.visualize()
+    
+    graph = mark_special_node(graph, pivot, idx=0, prod=P7(), label="Q")
+    # graph.visualize()
+    graph = split_special_node(graph, prod=P1())
+    # graph.visualize()
+    
+    graph = mark_special_node(graph, pivot, idx=0, prod=P7(), label="Q")
+    # graph.visualize()
+    graph = mark_special_node(graph, pivot, idx=1, prod=P8(), label="Q")
+    # graph.visualize()
+    graph = mark_special_node(graph, pivot, idx=2, prod=P22(), label="S")
+    # graph.visualize()
+    
+    graph = split_special_node(graph, prod=P2())
+    # graph.visualize()
+    
+    graph = split_special_node(graph, prod=P11())
+    # graph.visualize()
+    
+    graph = split_special_node(graph, prod=P1())
+    # graph.visualize()
+    
+    graph = mark_special_node(graph, pivot, idx=0, prod=P7(), label="Q")
+    # graph.visualize()
+    
+    graph = mark_special_node(graph, pivot, idx=1, prod=P8(), label="Q")
+    
+    graph = mark_special_node(graph, pivot, idx=2, prod=P8(), label="Q")
+    
+    
     graph.visualize()
     
-    graph = step2(graph, pivot, idx=0, prod=P7())
+    graph = split_special_node(graph, prod=P2(), idx=1)
     graph.visualize()
     
-    graph = step3(graph, prod=P1())
+    graph = split_special_node(graph, prod=P3(), idx=2)
     graph.visualize()
     
-    graph = step2(graph, pivot, idx=0, prod=P7())
-    graph.visualize()
     
-    graph = step3(graph, prod=P8())
+    graph = split_special_node(graph, prod=P1(), idx=0)
     graph.visualize()
-    
     
 
     ##############################
