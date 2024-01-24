@@ -38,9 +38,9 @@ class P3(ProductionBase):
         if n1.label == "Q":
             if n1.R != n2.R:
                 return False
-        # if n1.label == "V":
-        #     if n1.h != n2.h:
-        #         return False
+        if n1.label == "V":
+            if n1.h != n2.h:
+                return False
         return True
 
     def apply_production(self, graph, mapping):
@@ -48,6 +48,10 @@ class P3(ProductionBase):
         # Split 4 edges
         v3, v3_e1, v3_e2 = graph.split_edge(mapping[self.nodes[2]], mapping[self.nodes[3]], mapping[self.enodes[4]])
         v4, v4_e1, v4_e2 = graph.split_edge(mapping[self.nodes[3]], mapping[self.nodes[0]], mapping[self.enodes[5]])
+        
+        # Set node6.h = 0
+        mapping[self.nodes[5]].h = 0
+        
         # Replace midpoint
         node = Node(
             x = mapping[self.qnode].x,

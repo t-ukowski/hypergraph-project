@@ -30,7 +30,7 @@ class Pivot:
 #         best_dist = dist
 #         best_subgraph = subgraph
 
-def step1(graph):
+def step1(graph: Graph):
     
     # square nodes
     square_nodes = [
@@ -64,7 +64,7 @@ def step1(graph):
         graph.add_edge(node1, node2)
         
     for i in range(0, 6):
-        graph.add_edge(square_nodes[i], square_nodes[(i + 1) % 6])
+        graph.add_edge(square_nodes[i], square_nodes[(i + 1) % 6], B=1)
         
     for i in range(0, 6):    
         graph.add_edge(hexagon_nodes[i], hexagon_nodes[(i + 1) % 6])

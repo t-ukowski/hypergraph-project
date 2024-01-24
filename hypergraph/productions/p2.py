@@ -56,6 +56,10 @@ class P2(ProductionBase):
         v4, v4_e1, v4_e2 = graph.split_edge(
             mapping[self.nodes[3]], mapping[self.nodes[0]], mapping[self.enodes[4]]
         )
+
+        # Set node5.h = 0
+        mapping[self.nodes[4]].h = 0
+
         # Replace midpoint
         node = Node(x=mapping[self.qnode].x, y=mapping[self.qnode].y, h=0)
         graph.remove_q_node(mapping[self.qnode])
