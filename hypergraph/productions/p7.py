@@ -25,10 +25,7 @@ class P7(ProductionBase):
         if n1.label != n2.label:
             return False
         if n1.label == "Q":
-            if n1.R != n2.R:
-                return False
-        if n1.label == "V":
-            if n1.h != n2.h:
+            if n2.R != 0:
                 return False
         return True
 
