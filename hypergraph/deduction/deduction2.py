@@ -1,7 +1,6 @@
 from hypergraph.productions import P1, P2, P7, P8
 from hypergraph.structures import Node, Graph, QNode
 
-
 def create_graph():
     """
     Tworzy graf z predefiniowanymi węzłami i krawędziami.
@@ -66,45 +65,33 @@ def check_subgraph_and_apply_production(graph, production, id):
 graph = create_graph()
 graph.visualize()
 
-
-id = int(input("Podaj ID podgrafu: "))
-check_subgraph_and_apply_production(graph, P7, id)
+check_subgraph_and_apply_production(graph, P7, 2)
 graph.visualize()
 
-id = int(input("Podaj ID podgrafu: "))
-check_subgraph_and_apply_production(graph, P1, id)
+check_subgraph_and_apply_production(graph, P1, 7)
 graph.visualize()
 
-
-id = int(input("Podaj ID podgrafu: "))
-check_subgraph_and_apply_production(graph, P7, id)
+check_subgraph_and_apply_production(graph, P7, 12)
 graph.visualize()
 
-id = int(input("Podaj ID podgrafu: "))
-check_subgraph_and_apply_production(graph, P8, id)
+check_subgraph_and_apply_production(graph, P8, 3)
 graph.visualize()
 
-id = int(input("Podaj ID podgrafu: "))
-check_subgraph_and_apply_production(graph, P2, id)
+check_subgraph_and_apply_production(graph, P2, 3)
 graph.visualize()
 
-id = int(input("Podaj ID podgrafu: "))
-check_subgraph_and_apply_production(graph, P1, id)
+check_subgraph_and_apply_production(graph, P1, 14)
 graph.visualize()
 
-id = int(input("Podaj ID podgrafu: "))
-check_subgraph_and_apply_production(graph, P7, id)
+check_subgraph_and_apply_production(graph, P7, 23)
 graph.visualize()
 
-id = int(input("Podaj ID podgrafu: "))
-check_subgraph_and_apply_production(graph, P8, id)
+check_subgraph_and_apply_production(graph, P8, 19)
 graph.visualize()
 
-id = int(input("Podaj ID podgrafu: "))
-check_subgraph_and_apply_production(graph, P2, id)
+check_subgraph_and_apply_production(graph, P2, 19)
 graph.visualize()
 
-id = int(input("Podaj ID podgrafu: "))
-check_subgraph_and_apply_production(graph, P1, id)
+check_subgraph_and_apply_production(graph, P1, 28)
 graph.visualize()
 #
