@@ -72,10 +72,11 @@ class Graph:
 
         return node
 
-    def add_s_node(self, n1, n2, n3, n4, n5, n6):
+    def add_s_node(self, n1, n2, n3, n4, n5, n6, R=0):
         node = SNode(
             x=(n1.x + n2.x + n3.x + n4.x + n5.x + n6.x) / 6,
             y=(n1.y + n2.y + n3.y + n4.y + n5.y + n6.y) / 6,
+            R=R
         )
         self.G.add_node(node, node=node)
         self.add_hyperedge(n1, node)
@@ -184,7 +185,7 @@ class Graph:
             elif node.label == "E":
                 color_map.append("lightgrey")
             elif node.label == "S":
-                color_map.append("lightgrey")
+                color_map.append("pink")
             else:
                 color_map.append("lightblue")
 
