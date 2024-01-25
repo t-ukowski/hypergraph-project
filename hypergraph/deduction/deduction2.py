@@ -49,9 +49,10 @@ def apply_production(graph, production):
     try:
         first_subgraph = next(results)
         prod.apply_production(graph, first_subgraph)
+        print(f"Wykonano na grafie produkcję {prod.__class__.__name__}")
     except StopIteration:
         # Nie znaleziono pasujących podgrafów
-        print("Nie znaleziono pasujących podgrafów dla wybranej produkcji.")
+        print(f"Nie znaleziono pasujących podgrafów dla produkcji {prod.__class__.__name__}")
 
 
 # Utworzenie grafu
