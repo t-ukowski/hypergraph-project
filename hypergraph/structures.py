@@ -1,6 +1,7 @@
 import networkx as nx
 import matplotlib.pyplot as plt
 import matplotlib
+from itertools import count
 
 matplotlib.use("TkAgg")
 
@@ -14,11 +15,14 @@ class Node:
 
 
 class QNode:
+    _id_counter = count()
+
     def __init__(self, x: float, y: float, R=0):
         self.x = x
         self.y = y
         self.R = R
         self.label = "Q"
+        self.id = next(self._id_counter)
 
 
 class SNode:
@@ -172,7 +176,7 @@ class Graph:
             if node.label == "V":
                 labels[node] =  f"{node.label}\nh={node.h}"
             elif node.label == "Q":
-                labels[node] =  f"{node.label}\nR={node.R}"
+                labels[node] =  f"{node.label}\nR={node.R}\nID={node.id}"
             elif node.label == "E":
                 labels[node] =  f"{node.label}\nB={node.B}"
             elif node.label == "S":
@@ -195,8 +199,8 @@ class Graph:
             with_labels=True,
             labels=labels,
             node_color=color_map,
-            node_size=400,
-            font_size=10,
+            node_size=200,
+            font_size=6,
             edge_color="gray",
         )
         plt.show()

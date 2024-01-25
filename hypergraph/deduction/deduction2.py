@@ -1,5 +1,6 @@
 from hypergraph.productions import P1, P2, P7, P8
-from hypergraph.structures import Node, Graph
+from hypergraph.structures import Node, Graph, QNode
+
 
 def create_graph():
     """
@@ -26,9 +27,10 @@ def create_graph():
     connecting_edges = [(0, 6), (1, 7), (2, 8), (3, 9), (4, 10), (5, 11)]
 
     # Dodawanie wszystkich krawędzi do grafu
-    for start, end in outer_edges + inner_edges + connecting_edges:
+    for start, end in inner_edges + connecting_edges:
         graph.add_edge(nodes[start], nodes[end])
-
+    for start, end in outer_edges:
+        graph.add_edge(nodes[start], nodes[end], 1)
     # Dodawanie węzłów Q i S
     for i in range(6):
         graph.add_q_node(nodes[i], nodes[(i + 1) % 6], nodes[i + 6], nodes[(i + 1) % 6 + 6])
@@ -36,55 +38,74 @@ def create_graph():
 
     return graph
 
-def apply_production(graph, production):
+def check_qnode_id(subgraph, target_id):
+    for node in subgraph.keys():
+        if isinstance(node, QNode):
+            if node.id == target_id:
+                print("Znalezione")
+                return True
+    return False
+
+def apply_production(graph, production, id):
     """
     Aplikuje wybraną produkcję na grafie.
 
     :param graph: Graf, na którym będzie stosowana produkcja.
     :param production: Rodzaj produkcji do zastosowania (np. P7).
     """
+
     prod = production()
-    # TODO: APPLY PRODUCTION IN A SPECIFIC PLACE, BASED ON ADDITIONAL ARGUMENTS OF apply_production
     results = prod.search_for_subgraphs(graph)
-    try:
-        first_subgraph = next(results)
-        prod.apply_production(graph, first_subgraph)
-        print(f"Wykonano na grafie produkcję {prod.__class__.__name__}")
-    except StopIteration:
-        # Nie znaleziono pasujących podgrafów
-        print(f"Nie znaleziono pasujących podgrafów dla produkcji {prod.__class__.__name__}")
+
+    for subgraph in results:
+        if check_qnode_id(subgraph, target_id=id):
+            prod.apply_production(graph, subgraph)
+            break
 
 
-# Utworzenie grafu
+
 graph = create_graph()
 graph.visualize()
 
-apply_production(graph, P7)
+
+id = int(input("Podaj ID podgrafu: "))
+apply_production(graph, P7, id)
 graph.visualize()
 
-apply_production(graph, P1)
+id = int(input("Podaj ID podgrafu: "))
+apply_production(graph, P1, id)
 graph.visualize()
 
-apply_production(graph, P7)
+
+id = int(input("Podaj ID podgrafu: "))
+apply_production(graph, P7, id)
 graph.visualize()
 
-apply_production(graph, P8)
+id = int(input("Podaj ID podgrafu: "))
+apply_production(graph, P8, id)
 graph.visualize()
 
-apply_production(graph, P2)
+id = int(input("Podaj ID podgrafu: "))
+apply_production(graph, P2, id)
 graph.visualize()
 
-apply_production(graph, P1)
+id = int(input("Podaj ID podgrafu: "))
+apply_production(graph, P1, id)
 graph.visualize()
 
-apply_production(graph, P7)
+id = int(input("Podaj ID podgrafu: "))
+apply_production(graph, P7, id)
 graph.visualize()
 
-apply_production(graph, P8)
+id = int(input("Podaj ID podgrafu: "))
+apply_production(graph, P8, id)
 graph.visualize()
 
-apply_production(graph, P2)
+id = int(input("Podaj ID podgrafu: "))
+apply_production(graph, P2, id)
 graph.visualize()
 
-apply_production(graph, P1)
+id = int(input("Podaj ID podgrafu: "))
+apply_production(graph, P1, id)
 graph.visualize()
+#
