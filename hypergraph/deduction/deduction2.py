@@ -42,11 +42,10 @@ def check_qnode_id(subgraph, target_id):
     for node in subgraph.keys():
         if isinstance(node, QNode):
             if node.id == target_id:
-                print("Znalezione")
                 return True
     return False
 
-def apply_production(graph, production, id):
+def check_subgraph_and_apply_production(graph, production, id):
     """
     Aplikuje wybraną produkcję na grafie.
 
@@ -69,43 +68,43 @@ graph.visualize()
 
 
 id = int(input("Podaj ID podgrafu: "))
-apply_production(graph, P7, id)
+check_subgraph_and_apply_production(graph, P7, id)
 graph.visualize()
 
 id = int(input("Podaj ID podgrafu: "))
-apply_production(graph, P1, id)
+check_subgraph_and_apply_production(graph, P1, id)
 graph.visualize()
 
 
 id = int(input("Podaj ID podgrafu: "))
-apply_production(graph, P7, id)
+check_subgraph_and_apply_production(graph, P7, id)
 graph.visualize()
 
 id = int(input("Podaj ID podgrafu: "))
-apply_production(graph, P8, id)
+check_subgraph_and_apply_production(graph, P8, id)
 graph.visualize()
 
 id = int(input("Podaj ID podgrafu: "))
-apply_production(graph, P2, id)
+check_subgraph_and_apply_production(graph, P2, id)
 graph.visualize()
 
 id = int(input("Podaj ID podgrafu: "))
-apply_production(graph, P1, id)
+check_subgraph_and_apply_production(graph, P1, id)
 graph.visualize()
 
 id = int(input("Podaj ID podgrafu: "))
-apply_production(graph, P7, id)
+check_subgraph_and_apply_production(graph, P7, id)
 graph.visualize()
 
 id = int(input("Podaj ID podgrafu: "))
-apply_production(graph, P8, id)
+check_subgraph_and_apply_production(graph, P8, id)
 graph.visualize()
 
 id = int(input("Podaj ID podgrafu: "))
-apply_production(graph, P2, id)
+check_subgraph_and_apply_production(graph, P2, id)
 graph.visualize()
 
 id = int(input("Podaj ID podgrafu: "))
-apply_production(graph, P1, id)
+check_subgraph_and_apply_production(graph, P1, id)
 graph.visualize()
 #
