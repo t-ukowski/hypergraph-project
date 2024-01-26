@@ -62,7 +62,7 @@ for i in range(6):
 important_vertex = hexagon_nodes[3]
 curr_q_node = q_nodes[2]
 
-# graph.visualize()
+graph.visualize()
 
 def find_nearest_q_node(graph, x, y):
     best = Node(100000, 10000000)
@@ -88,11 +88,11 @@ for res in results:
         prod.apply_production(graph, res)
         break
 
-# graph.visualize()
+graph.visualize()
 
 apply_prod(graph, P1())
 
-# graph.visualize()
+graph.visualize()
 
 next_coords = (curr_q_node.x + important_vertex.x) / 2, (curr_q_node.y + important_vertex.y) / 2
 
@@ -108,7 +108,7 @@ for res in prod.search_for_subgraphs(graph):
         prod.apply_production(graph, res)
         break
 
-# graph.visualize()
+graph.visualize()
 
 apply_prod(graph, P8())
 
@@ -116,7 +116,7 @@ apply_prod(graph, P22())
 
 graph.visualize()
 
-apply_prod(graph, P10()) # P10 nie ma
+apply_prod(graph, P10()) 
 
 graph.visualize()
 
@@ -144,7 +144,13 @@ apply_prod(graph, P8())
 
 graph.visualize()
 
-apply_prod(graph, P2())
+important_vertex = s_node
+curr_q_node = find_nearest_q_node(graph, important_vertex.x + 0.1, important_vertex.y + 0.1)
+prod = P2()
+for res in prod.search_for_subgraphs(graph):
+    if curr_q_node in res:
+        prod.apply_production(graph, res)
+        break
 
 graph.visualize()
 

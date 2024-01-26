@@ -45,6 +45,7 @@ class Edge:
 
 class Graph:
     def __init__(self):
+        self.num = 0
         self.G = nx.Graph()
         self.normal_nodes = []
 

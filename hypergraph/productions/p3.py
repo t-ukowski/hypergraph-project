@@ -67,3 +67,6 @@ class P3(ProductionBase):
         graph.add_q_node(node, mapping[self.nodes[4]], mapping[self.nodes[2]], v3)
         graph.add_q_node(v4, node, v3, mapping[self.nodes[3]])
 
+        mapping[self.nodes[4]].h = 0
+        mapping[self.nodes[5]].h = 0
+

@@ -151,3 +151,6 @@ class P10(ProductionBase):
             mid_node,
             v_6_1,
         )
+
+        mapping[self.nodes[6]].h = 0
+
